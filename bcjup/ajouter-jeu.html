@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVersus - Ajouter un jeu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="particles-canvas"></div>
+    
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo" id="easterEggTrigger">
+                <div class="logo-3d">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Game<span class="highlight">Versus</span></span>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+                <a href="comparer.html"><i class="fas fa-chart-line"></i> Comparateur</a>
+                <a href="ajouter-jeu.html" class="active"><i class="fas fa-plus-circle"></i> Ajouter</a>
+                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+                <a href="mentions-legales.html"><i class="fas fa-gavel"></i> Mentions</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="form-page">
+        <div class="container">
+            <div class="form-container glass">
+                <h1><i class="fas fa-plus-circle"></i> Ajouter un nouveau jeu</h1>
+                <p class="form-subtitle">Complétez les informations ci-dessous pour ajouter un jeu à notre base</p>
+
+                <form id="addJeuForm">
+                    <div class="form-section">
+                        <h2><i class="fas fa-info-circle"></i> Informations du jeu</h2>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-gamepad"></i> Nom du jeu *</label>
+                            <input type="text" placeholder="Ex: Final Fantasy VII" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar"></i> Date de sortie originale *</label>
+                                <input type="date" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-tag"></i> Genre *</label>
+                                <select required>
+                                    <option value="">Sélectionner</option>
+                                    <option>RPG</option>
+                                    <option>Action</option>
+                                    <option>Aventure</option>
+                                    <option>FPS</option>
+                                    <option>Platformer</option>
+                                    <option>Simulation</option>
+                                    <option>Course</option>
+                                    <option>Combat</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-align-left"></i> Description *</label>
+                            <textarea rows="4" placeholder="Décrivez le jeu..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-image"></i> Image (URL)</label>
+                            <input type="url" placeholder="https://image.com/jeu.jpg">
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-chart-line"></i> Difficulté générale</label>
+                            <div class="difficulty-selector">
+                                <span class="difficulty-star" data-value="1">★</span>
+                                <span class="difficulty-star" data-value="2">★</span>
+                                <span class="difficulty-star" data-value="3">★</span>
+                                <span class="difficulty-star" data-value="4">★</span>
+                                <span class="difficulty-star" data-value="5">★</span>
+                            </div>
+                            <input type="hidden" id="difficulty" value="3">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2><i class="fas fa-thumbs-up"></i> Points Forts</h2>
+                        <div id="strengthsList">
+                            <div class="point-item">
+                                <input type="text" placeholder="Point fort...">
+                                <button type="button" class="remove-point"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add-point" id="addStrength"><i class="fas fa-plus"></i> Ajouter un point fort</button>
+                    </div>
+
+                    <div class="form-section">
+                        <h2><i class="fas fa-thumbs-down"></i> Points Faibles</h2>
+                        <div id="weaknessesList">
+                            <div class="point-item">
+                                <input type="text" placeholder="Point faible...">
+                                <button type="button" class="remove-point"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add-point" id="addWeakness"><i class="fas fa-plus"></i> Ajouter un point faible</button>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="reset" class="btn-cancel"><i class="fas fa-times"></i> Annuler</button>
+                        <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Ajouter le jeu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Game<span>Versus</span></span>
+                </div>
+                <p>Le comparateur de versions de jeux vidéo.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Liens rapides</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="comparer.html">Comparateur</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Légal</h4>
+                <ul>
+                    <li><a href="mentions-legales.html">Mentions légales</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 GameVersus - Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <div id="easterEggToast" class="easter-egg-toast">🎭 "You spoony bard!"</div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
