@@ -157,7 +157,6 @@ body {
 
 /* ==================== HERO 3D SECTION ==================== */
 .hero-3d {
-    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -171,14 +170,10 @@ body {
 }
 
 .glitch-text {
-    font-family: 'Orbitron', monospace;
+    font-family: monospace;
     font-size: 4rem;
     font-weight: 900;
     position: relative;
-    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
-                  -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
-                 0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
-    animation: glitch 3s infinite;
 }
 
 .glitch-text::before,
@@ -192,37 +187,13 @@ body {
 }
 
 .glitch-text::before {
-    animation: glitch-1 2s infinite;
     color: #ff00ff;
     z-index: -1;
 }
 
 .glitch-text::after {
-    animation: glitch-2 2s infinite;
     color: #00ffff;
     z-index: -2;
-}
-
-@keyframes glitch {
-    0%, 100% { transform: skew(0deg, 0deg); }
-    95% { transform: skew(0deg, 0deg); }
-    96% { transform: skew(5deg, 2deg); }
-    97% { transform: skew(-5deg, -2deg); }
-    98% { transform: skew(5deg, 2deg); }
-    99% { transform: skew(-5deg, -2deg); }
-}
-
-@keyframes glitch-1 {
-    0%, 100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-    95% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-    96% { clip-path: polygon(0 0, 100% 0, 100% 30%, 0 30%); }
-    97% { clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%); }
-}
-
-@keyframes glitch-2 {
-    0%, 100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-    95% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-    96% { clip-path: polygon(0 30%, 100% 30%, 100% 60%, 0 60%); }
 }
 
 .hero-subtitle {

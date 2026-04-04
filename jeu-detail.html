@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameVersus - Détail du jeu</title>
+    <title>GameVersions - Détail du jeu</title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div id="particles-canvas"></div>
@@ -16,12 +14,11 @@
             <div class="logo" id="easterEggTrigger">
                 <div class="logo-3d">
                     <i class="fas fa-gamepad"></i>
-                    <span>Game<span class="highlight">Versus</span></span>
+                    <span>Game<span class="highlight">Versions</span></span>
                 </div>
             </div>
             <div class="nav-links">
                 <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
-                <a href="comparer.html"><i class="fas fa-chart-line"></i> Comparateur</a>
                 <a href="ajouter-jeu.html"><i class="fas fa-plus-circle"></i> Ajouter</a>
                 <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
                 <a href="mentions-legales.html"><i class="fas fa-gavel"></i> Mentions</a>
@@ -48,17 +45,11 @@
                 </div>
                 <div class="jeu-info">
                     <h1 id="jeuNom">Chargement...</h1>
-                    <p id="jeuDescription" class="jeu-description">Chargement des informations...</p>
                     <div class="jeu-metadata">
                         <span id="jeuAnnee" class="badge"><i class="fas fa-calendar"></i> -</span>
                         <span id="jeuGenre" class="badge"><i class="fas fa-tag"></i> -</span>
-                        <span id="jeuDeveloppeur" class="badge"><i class="fas fa-building"></i> -</span>
                     </div>
                     <div class="jeu-stats">
-                        <div class="stat">
-                            <span id="jeuNote" class="value">-/10</span>
-                            <span class="label">Note moyenne</span>
-                        </div>
                         <div class="stat">
                             <span id="jeuNbVersions" class="value">-</span>
                             <span class="label">Versions</span>
@@ -68,55 +59,28 @@
                             <span class="label">Plateformes</span>
                         </div>
                     </div>
-                    <div id="jeuPlateformes" class="plateformes"></div>
                     <button class="btn-add-version" onclick="window.location.href='ajouter-version.html'">
                         <i class="fas fa-plus"></i> Ajouter une Version
                     </button>
                 </div>
             </div>
 
-            <div class="versions-ranking glass">
-                <h2><i class="fas fa-trophy"></i> Classement des Versions</h2>
-                <div id="rankingList" class="ranking-list">
-                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
+            <div class="comparative-table glass">
+                <h2><i class="fas fa-table-list"></i> Tableau comparatif des versions</h2>
+                <div class="table-responsive">
+                    <table class="compare-table">
+                        <thead>
+                            <tr><th>Plateforme</th><th>Résolution</th><th>Framerate</th><th>Stabilité</th><th>Latence</th><th>Date sortie</th><th>Note</th></tr>
+                        </thead>
+                        <tbody id="portageTableBody">
+                            <tr><td colspan="7" class="loading-spinner">Chargement...</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
-            <div class="two-columns">
-                <div class="scores-card glass">
-                    <h3><i class="fas fa-chart-simple"></i> Scores par catégorie</h3>
-                    <div id="scoresList" class="scores-list">
-                        <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
-                    </div>
-                </div>
-
-                <div class="strengths-weaknesses glass">
-                    <div class="strengths">
-                        <h3><i class="fas fa-check-circle"></i> Points Forts</h3>
-                        <ul id="strengthsList">
-                            <li><i class="fas fa-spinner fa-spin"></i> Chargement...</li>
-                        </ul>
-                    </div>
-                    <div class="weaknesses">
-                        <h3><i class="fas fa-exclamation-triangle"></i> Points Faibles</h3>
-                        <ul id="weaknessesList">
-                            <li><i class="fas fa-spinner fa-spin"></i> Chargement...</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-section glass">
-                <h2><i class="fas fa-timeline"></i> Frise Chronologique des Versions</h2>
-                <div id="timeline" class="timeline">
-                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
-                </div>
-            </div>
-
-            
 
             <div class="changes-section glass">
-                <h2><i class="fas fa-language"></i> Changements & Localisations</h2>
+                <h2><i class="fas fa-language"></i> Détails des changements</h2>
                 <div id="changesGrid" class="changes-grid">
                     <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
                 </div>
@@ -135,25 +99,54 @@
                     </table>
                 </div>
             </div>
+
+            <div class="changes-section glass">
+                <h2><i class="fas fa-language"></i> Détails des changements</h2>
+                <div id="changesGrid" class="changes-grid">
+                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
+                </div>
+            </div>
+
+            <div class="comparative-table glass">
+                <h2><i class="fas fa-table-list"></i> Tableau comparatif des localisations</h2>
+                <div class="table-responsive">
+                    <table class="compare-table">
+                        <thead>
+                            <tr><th>Plateforme</th><th>Résolution</th><th>Framerate</th><th>Stabilité</th><th>Latence</th><th>Date sortie</th><th>Note</th></tr>
+                        </thead>
+                        <tbody id="portageTableBody">
+                            <tr><td colspan="7" class="loading-spinner">Chargement...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="changes-section glass">
+                <h2><i class="fas fa-language"></i> Détails des changements</h2>
+                <div id="changesGrid" class="changes-grid">
+                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
+                </div>
+            </div>
+
         </div>
     </main>
 
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-col">
-                <div class="footer-logo"><i class="fas fa-gamepad"></i><span>Game<span>Versus</span></span></div>
+                <div class="footer-logo"><i class="fas fa-gamepad"></i><span>Game<span>Versions</span></span></div>
                 <p>Le comparateur de versions de jeux vidéo.</p>
             </div>
             <div class="footer-col">
                 <h4>Liens rapides</h4>
-                <ul><li><a href="index.html">Accueil</a></li><li><a href="comparer.html">Comparateur</a></li><li><a href="contact.html">Contact</a></li></ul>
+                <ul><li><a href="index.html">Accueil</a></li><li><a href="contact.html">Contact</a></li></ul>
             </div>
             <div class="footer-col">
                 <h4>Légal</h4>
                 <ul><li><a href="mentions-legales.html">Mentions légales</a></li></ul>
             </div>
         </div>
-        <div class="footer-bottom"><p>&copy; 2026 GameVersus - Tous droits réservés</p></div>
+        <div class="footer-bottom"><p>&copy; 2026 GameVersions - Tous droits réservés</p></div>
     </footer>
 
     <script>
@@ -207,64 +200,6 @@
                 `<span class="plateforme"><i class="fas fa-gamepad"></i> ${p}</span>`
             ).join('');
             
-            // Classement des versions
-            const rankingContainer = document.getElementById('rankingList');
-            if (rankingContainer && versions.length) {
-                const sortedVersions = [...versions].sort((a, b) => (b.note_moyenne || 0) - (a.note_moyenne || 0));
-                rankingContainer.innerHTML = sortedVersions.map((v, i) => `
-                    <div class="ranking-item ${i === 0 ? 'first' : ''}">
-                        <div class="rank">${i+1}</div>
-                        <div class="version-info">
-                            <h3>${v.nom}</h3>
-                            <span class="year">${new Date(v.dateSortie).getFullYear()}</span>
-                            ${v.original ? '<span class="tag-original">Original</span>' : ''}
-                        </div>
-                        <div class="rating">${v.note_moyenne || '?'}/10 <i class="fas fa-star"></i></div>
-                    </div>
-                `).join('');
-            } else if (rankingContainer) {
-                rankingContainer.innerHTML = '<div class="glass">Aucune version disponible</div>';
-            }
-            
-            // Frise chronologique
-            const timelineContainer = document.getElementById('timeline');
-            if (timelineContainer && versions.length) {
-                timelineContainer.innerHTML = versions.map(v => `
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>${v.nom}</h3>
-                            <p>${new Date(v.dateSortie).getFullYear()}</p>
-                        </div>
-                    </div>
-                `).join('');
-            }
-            
-            // Points forts/faibles
-            const strengthsDiv = document.getElementById('strengthsList');
-            if (strengthsDiv) {
-                strengthsDiv.innerHTML = strengths.length ? 
-                    strengths.map(s => `<li><i class="fas fa-check-circle"></i> ${s}</li>`).join('') :
-                    '<li><i class="fas fa-info-circle"></i> Aucun point fort renseigné</li>';
-            }
-            
-            const weaknessesDiv = document.getElementById('weaknessesList');
-            if (weaknessesDiv) {
-                weaknessesDiv.innerHTML = weaknesses.length ?
-                    weaknesses.map(w => `<li><i class="fas fa-exclamation-triangle"></i> ${w}</li>`).join('') :
-                    '<li><i class="fas fa-info-circle"></i> Aucun point faible renseigné</li>';
-            }
-            
-            // Scores
-            const scoresContainer = document.getElementById('scoresList');
-            if (scoresContainer && versions.length) {
-                const meilleureVersion = [...versions].sort((a, b) => (b.note_moyenne || 0) - (a.note_moyenne || 0))[0];
-                scoresContainer.innerHTML = `
-                    <div class="score-item"><span>Note globale</span><div class="progress-bar"><div class="progress" style="width: ${(meilleureVersion.note_moyenne || 0) * 10}%"></div></div><span>${meilleureVersion.note_moyenne || '?'}/10</span></div>
-                    <div class="score-item"><span>Meilleure version</span><div class="progress-bar"><div class="progress" style="width: 100%"></div></div><span>${meilleureVersion.nom}</span></div>
-                `;
-            }
-            
             // Portages
             const portageContainer = document.getElementById('portageTableBody');
             if (portageContainer && portages.length) {
@@ -311,8 +246,6 @@
         });
     </script>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
