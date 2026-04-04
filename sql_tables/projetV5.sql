@@ -76,7 +76,7 @@ CREATE TABLE localisation (
   region VARCHAR(30) NOT NULL,
   dateSortie DATE NOT NULL,
   modifContenu TINYINT(1) NOT NULL,
-  image BLOB,
+  image LONGBLOB,
   original TINYINT(1) NOT NULL,
   numPortage INT NOT NULL,
   CONSTRAINT localisation_PK PRIMARY KEY (numLocalisation),

@@ -10,4 +10,5 @@ INSERT INTO plateforme VALUES
 (24, 'Playstation 5', 9, 'Sony', 0),
 (31, 'WonderSwan Color', 6, 'Bandai', 1),
 (11, 'GBA', 6, 'Nintendo', 1),
-(27, 'PSP', 7, 'Sony', 1);
+(27, 'PSP', 7, 'Sony', 1),
+(4, 'N64', 5, 'Nintendo', 0);
