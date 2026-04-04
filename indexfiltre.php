@@ -38,7 +38,7 @@
     <section class="description-section">
         <div class="container">
             <div class="description-card glass">
-                <form action="index.php" method="get" id="rechercheNom">
+                <form action="index.php" method="GET" id="rechercheNom">
                     <div class="form-row">
                         <div class="form-group">
                             <input type="text" name="nom" placeholder="Rechercher un jeu..." required>
@@ -55,7 +55,7 @@
                     <b>Ou rechercher par catégories :</b>
                 </legend>
 
-                <form action="indexfiltre.php" method="GET" id="rechercheCat">
+                <form action="#" method="GET" id="rechercheCat">
                     <div class="form-row">
                         <div class="form-group">
                             <label><i class="fas fa-tag"></i> Genre</label>
@@ -102,7 +102,67 @@
                 <h2><i class="fas fa-gamepad"></i> Jeux</h2>
             </div>
             <div class="games-grid" id="gamesGrid">
-                <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Rechercher un jeu pour l'afficher</div>
+
+<?php 
+
+//fonction de connexion et requete (requeteSQL) dans un script séparé
+include("connexion.php");
+
+//fonction pour écrire la requete SQL
+function getNomImage($genre, $diff, $annee, $nbver) {
+    $req = "SELECT j.nom, j.numJeu, l.image
+            FROM jeu j INNER JOIN version v
+            ON j.numJeu = v.numJeu
+            INNER JOIN portage p
+            ON v.numVersion = p.numVersion
+            INNER JOIN localisation l
+            ON p.numPortage = l.numPortage
+            WHERE v.original = 1
+            AND p.original = 1
+            AND l.original = 1";
+
+    if ($genre != 0)
+        $req = $req." AND j.genre LIKE '".$genre."'";
+    if ($diff != 0)
+        $req = $req." AND j.difficulte =".$diff;
+    if ($annee != null && $annee >= 1950)
+        $req = $req." AND YEAR(j.dateSortie) =".$annee;
+    if ($nbver != null)
+        $req = $req." AND (SELECT COUNT(v2.numVersion) 
+                            FROM version v2
+                            WHERE v2.numJeu = j.numJeu
+                            GROUP BY j.numJeu) =".$nbver;
+
+    $data = requeteSQL($req);
+    return $data;
+}
+
+$genre = $_GET['genre'];
+$diff = $_GET['difficulte'];
+$annee = $_GET['dateSortie'];
+$nbver = $_GET['nbVersions'];
+
+
+//récupère résultat requete
+$data = getNomImage($genre, $diff, $annee, $nbver);
+
+//affichage pour chaque jeu qui matche la recherche
+//j'ai récupéré le contenu de la fonction generateGamesGrid dans le fichier js
+while ($row = $data->fetch_assoc()) {
+    $image = $row['image'];
+    echo '<div class="game-card" onclick="window.location.href=\'jeu-detail.html?id="'.$row['numJeu'].'\'">';
+        echo '<div class="game-card-image"><img src="data:image/jpg;base64,'.base64_encode($image) .'" alt="'.$row['nom'].'" style="width:100%; height:100%; object-fit:cover;"></div>';
+        echo '<div class="game-card-content">';
+            echo '<h3>'.$row['nom'].'</h3>';
+            echo '<div class="game-footer">';
+                echo '<button class="btn-detail">Voir détails</button>';
+            echo '</div>';
+        echo '</div>';
+    echo '</div>';
+}
+
+?>
+
             </div>
         </div>
     </section>
