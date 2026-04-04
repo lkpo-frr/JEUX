@@ -155,7 +155,10 @@ while ($row = $data->fetch_assoc()) {
         echo '<div class="game-card-content">';
             echo '<h3>'.$row['nom'].'</h3>';
             echo '<div class="game-footer">';
-                echo '<button class="btn-detail">Voir détails</button>';
+                echo '<form action="jeu-detail.php" method="GET">';
+                    echo '<input type="hidden" name="id" value='.$row['numJeu'].'>';
+                    echo '<button class="btn-detail">Voir détails</button>';
+                echo '</form>';
             echo '</div>';
         echo '</div>';
     echo '</div>';
@@ -175,12 +178,6 @@ while ($row = $data->fetch_assoc()) {
                     <span>Game<span>Versions</span></span>
                 </div>
                 <p>Le comparateur de versions de jeux vidéo. Trouvez la meilleure version de vos jeux préférés.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-discord"></i></a>
-                    <a href="#"><i class="fab fa-github"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
             </div>
             <div class="footer-col">
                 <h4>À propos</h4>
