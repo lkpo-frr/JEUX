@@ -38,27 +38,66 @@
 
 <?php 
 
+//fonction de connexion et requete (requeteSQL) dans un script séparé
+include("connexion.php");
+
+//recupère le nom, le genre, la date, l'image + le nombre de versions et de portages à partir id du jeu
+function getInfosJeu($id) {
+    $req = "SELECT j.nom, YEAR(j.dateSortie) AS annee, j.genre, l.image, 
+
+(SELECT COUNT(v.numVersion) AS nbver 
+            FROM jeu j INNER JOIN version v
+            ON j.numJeu = v.numJeu
+            WHERE j.numJeu =".$id.") AS nbVer,
+
+(SELECT COUNT(v.numVersion) AS nbver
+            FROM jeu j INNER JOIN version v
+            ON j.numJeu = v.numJeu
+            INNER JOIN portage p
+            ON v.numVersion = p.numVersion
+            WHERE j.numJeu =".$id.") AS nbPorts
+            
+            FROM jeu j INNER JOIN version v
+            ON j.numJeu = v.numJeu
+            INNER JOIN portage p
+            ON v.numVersion = p.numVersion
+            INNER JOIN localisation l
+            ON p.numPortage = l.numPortage
+            WHERE v.original = 1
+            AND p.original = 1
+            AND l.original = 1
+            AND j.numJeu =".$id;
+
+    $data = requeteSQL($req);
+    return $data;
+}
+
+$id = $_GET['id'];
+$data = getInfosJeu($id);
+$row = $data->fetch_assoc();
+$image = $row['image'];
+
+//affiche l'image et les infos sur le jeu en haut de page
+    echo '<img id="jeuCoverImage" src="data:image/jpg;base64,'.base64_encode($image) .'" alt="Jeu">';
+echo '</div>';
+echo '<div class="jeu-info">';
+    echo '<h1 id="jeuNom">'.$row['nom'].'</h1>';
+    echo '<div class="jeu-metadata">';
+        echo '<span id="jeuAnnee" class="badge">'.$row['annee'].'</span>';
+        echo '<span id="jeuGenre" class="badge">'.$row['genre'].'</span>';
+    echo '</div>';
+    echo '<div class="jeu-stats">';
+        echo '<div class="stat">';
+            echo '<span id="jeuNbVersions" class="value">'.$row['nbVer'].' Versions</span>';
+        echo '</div>';
+        echo '<div class="stat">';
+            echo '<span id="jeuNbPlateformes" class="value">'.$row['nbPorts'].' Portages</span>';
+        echo '</div>';
+    echo '</div>';
+
 ?>
 
-                    <img id="jeuCoverImage" src="images/default.jpg" alt="Jeu">
-                </div>
-                <div class="jeu-info">
-                    <h1 id="jeuNom">Chargement...</h1>
-                    <div class="jeu-metadata">
-                        <span id="jeuAnnee" class="badge">1999</span>
-                        <span id="jeuGenre" class="badge">Plateforme</span>
-                    </div>
-                    <div class="jeu-stats">
-                        <div class="stat">
-                            <span id="jeuNbVersions" class="value">-</span>
-                            <span class="label">Versions</span>
-                        </div>
-                        <div class="stat">
-                            <span id="jeuNbPlateformes" class="value">-</span>
-                            <span class="label">Plateformes</span>
-                        </div>
-                    </div>
-                    
+
 
                     <button class="btn-add-version" onclick="window.location.href='ajouter-version.html'">
                         <i class="fas fa-plus"></i> Ajouter une Version
@@ -71,10 +110,59 @@
                 <div class="table-responsive">
                     <table class="compare-table">
                         <thead>
-                            <tr><th>Plateforme</th><th>Résolution</th><th>Framerate</th><th>Stabilité</th><th>Latence</th><th>Date sortie</th><th>Note</th></tr>
+                            <tr><th>Nom</th><th>Date sortie</th><th>Contenu additionnel ?</th><th>Difficulté comparé à l'original</th><th>Note</th><th>Description</th></tr>
                         </thead>
                         <tbody id="portageTableBody">
-                            <tr><td colspan="7" class="loading-spinner">Chargement...</td></tr>
+
+<?php 
+//fonction de connexion et requete (requeteSQL) dans un script séparé
+include_once("connexion.php");
+
+function getInfosVer($id) {
+    $req = "SELECT v.nom, v.dateSortie, v.contenuAdditionnel AS addi, 
+            v.difficulteRelative AS diff, v.noteVersion AS note, v.description, v.original
+            FROM jeu j INNER JOIN version v
+            ON j.numJeu = v.numJeu
+            WHERE j.numJeu =".$id;
+
+    $data = requeteSQL($req);
+    return $data;
+} 
+
+$id = $_GET['id'];
+$data = getInfosVer($id);
+//remplit le tableau comparant les versions
+while ($row = $data->fetch_assoc()) {
+    echo '<tr><td>'.$row['nom'].'</td><td>'.$row['dateSortie'].'</td><td>';
+    //affiche s'il y a du contenu additionnel
+    if ($row['addi'] ==1)
+        echo 'Oui</td><td>';
+    else 
+        echo 'Non</td><td>';
+
+    //affiche la difficulté relative
+    if ($row['diff'] ==1)
+        echo 'Plus difficile</td><td>';
+    else if ($row['diff'] == -1)
+        echo 'Moins difficile</td><td>';
+    else
+        echo 'Identique</td><td>';
+
+    //affiche note si n'est pas l'original
+    if ($row['original'] ==1)
+        echo 'Original</td><td>';
+    else 
+        echo $row['note'].'</td><td>';
+
+    //affiche description si n'est pas l'original
+    if ($row['original'] ==1)
+        echo 'Original</td></tr>';
+    else 
+        echo $row['description'].'</td></tr>';
+}
+
+?>
+
                         </tbody>
                     </table>
                 </div>
