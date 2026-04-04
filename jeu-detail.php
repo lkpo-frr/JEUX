@@ -119,7 +119,7 @@ echo '<div class="jeu-info">';
 include_once("connexion.php");
 
 function getInfosVer($id) {
-    $req = "SELECT v.nom, v.dateSortie, v.contenuAdditionnel AS addi, 
+    $req = "SELECT v.numVersion, v.nom, v.dateSortie, v.contenuAdditionnel AS addi, 
             v.difficulteRelative AS diff, v.noteVersion AS note, v.description, v.original
             FROM jeu j INNER JOIN version v
             ON j.numJeu = v.numJeu
@@ -170,6 +170,16 @@ while ($row = $data->fetch_assoc()) {
 
             <div class="changes-section glass">
                 <h2><i class="fas fa-language"></i> Détails des changements</h2>
+
+<?php 
+
+$id = $_GET['id'];
+$data = getInfosVer($id);
+while ($row = $data->fetch_assoc()) {
+    echo '<button id="'.$row['numVersion'].'" class="infoVer btn-add-version" type="button" >'.$row['nom'].'</button>';
+}
+
+?>
                 <div id="changesGrid" class="changes-grid">
                     <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
                 </div>
@@ -189,7 +199,7 @@ while ($row = $data->fetch_assoc()) {
                 </div>
             </div>
 
-            <div class="changes-section glass">
+            <div id="ici" class="changes-section glass">
                 <h2><i class="fas fa-language"></i> Détails des changements</h2>
                 <div id="changesGrid" class="changes-grid">
                     <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
