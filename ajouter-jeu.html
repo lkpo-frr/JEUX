@@ -13,18 +13,16 @@
         <div class="nav-container">
             <div class="logo" id="easterEggTrigger">
                 <div class="logo-3d">
-                    <i class="fas fa-gamepad"></i>
                     <span>Game<span class="highlight">Versions</span></span>
                 </div>
             </div>
             <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
-                <a href="ajouter-jeu.html" class="active"><i class="fas fa-plus-circle"></i> Ajouter</a>
-                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
-                <a href="mentions-legales.html"><i class="fas fa-gavel"></i> Mentions</a>
+                <a href="index.html">Accueil</a>
+                <a href="ajouter-jeu.html" class="active">Ajouter</a>
+                <a href="contact.html">Contact</a>
+                <a href="mentions-legales.html">Mentions</a>
             </div>
             <div class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
             </div>
         </div>
     </nav>
@@ -32,31 +30,31 @@
     <main class="form-page">
         <div class="container">
             <div class="form-container glass">
-                <h1><i class="fas fa-plus-circle"></i> Ajouter un nouveau jeu</h1>
+                <h1>Ajouter un nouveau jeu</h1>
                 <p class="form-subtitle">Complétez les informations ci-dessous pour ajouter un jeu à notre base</p>
 
                 <form action="ajouter-jeu-action.php" method="POST" id="addJeuForm">
                     <div class="form-section">
-                        <h2><i class="fas fa-info-circle"></i> Informations du jeu</h2>
+                        <h2>Informations du jeu</h2>
                         
                         <div class="form-group">
-                            <label><i class="fas fa-gamepad"></i> Nom du jeu *</label>
+                            <label>Nom du jeu *</label>
                             <input type="text" name="nom" placeholder="Ex: Final Fantasy VII" required>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Date de sortie originale *</label>
+                                <label>Date de sortie originale *</label>
                                 <input type="date" name="dateSortie" required>
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-tag"></i> Genre *</label>
+                                <label>Genre *</label>
                                 <input type="text" name="genre" placeholder="Ex: Simulation" minlength="2" pattern="[A-Z0-9]([A-Za-z0-9 ]*)" title="Le nom du genre doit commencer par une majuscule et ne pas contenir de caractères spéciaux" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label><i class="fas fa-tag"></i> Difficulté</label>
+                            <label>Difficulté</label>
                             <select name="difficulte">
                                 <option value="0">Sélectionner</option>
                                 <option value="1">Facile</option>
@@ -67,8 +65,8 @@
                     </div>
 
                     <div class="form-actions">
-                        <button type="reset" class="btn-cancel" ><i class="fas fa-times"></i> Annuler</button>
-                        <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Ajouter le jeu</button>
+                        <button type="reset" class="btn-cancel" >Annuler</button>
+                        <button type="submit" class="btn-submit">Ajouter le jeu</button>
                     </div>
                 </form>
             </div>
@@ -79,7 +77,6 @@
         <div class="footer-container">
             <div class="footer-col">
                 <div class="footer-logo">
-                    <i class="fas fa-gamepad"></i>
                     <span>Game<span>Versions</span></span>
                 </div>
                 <p>Le comparateur de versions de jeux vidéo.</p>

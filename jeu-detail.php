@@ -13,25 +13,23 @@
         <div class="nav-container">
             <div class="logo" id="easterEggTrigger">
                 <div class="logo-3d">
-                    <i class="fas fa-gamepad"></i>
                     <span>Game<span class="highlight">Versions</span></span>
                 </div>
             </div>
             <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
-                <a href="ajouter-jeu.html"><i class="fas fa-plus-circle"></i> Ajouter</a>
-                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
-                <a href="mentions-legales.html"><i class="fas fa-gavel"></i> Mentions</a>
+                <a href="index.html">Accueil</a>
+                <a href="ajouter-jeu.html">Ajouter</a>
+                <a href="contact.html">Contact</a>
+                <a href="mentions-legales.html">Mentions</a>
             </div>
             <div class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
             </div>
         </div>
     </nav>
 
     <main class="jeu-detail">
         <div class="container">
-            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Retour à l'accueil</a>
+            <a href="index.html" class="back-link">Retour à l'accueil</a>
             
             <div class="jeu-header glass" id="jeuHeader">
                 <div class="jeu-image">
@@ -101,15 +99,13 @@ echo '<div class="jeu-info">';
 
 ?>
 
-                        <button class="btn-add-version" type="submit">
-                            <i class="fas fa-plus"></i> Ajouter une Version
-                        </button>
+                        <button class="btn-add-version" type="submit">Ajouter une Version</button>
                     </form>
                 </div>
             </div>
 
             <div class="comparative-table glass">
-                <h2><i class="fas fa-table-list"></i> Tableau comparatif des versions</h2>
+                <h2>Tableau comparatif des versions</h2>
                 <div class="table-responsive">
                     <table class="compare-table">
                         <thead>
@@ -172,7 +168,7 @@ while ($row = $data->fetch_assoc()) {
             </div>
 
             <div class="changes-section glass">
-                <h2><i class="fas fa-language"></i> Détails des changements</h2>
+                <h2>Détails des changements</h2>
                 <form action="jeu-detail.php" method="GET">
 
 <?php 
@@ -218,7 +214,7 @@ echo '</form>';
 echo '<div id="changesGrid" class="changes-grid">';
 //affichage de la liste des changements pour chaque catégories
 if (!isset($_GET['submitVer']) || $_GET['choixVer'] == 0 )
-    echo '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i>Version Originale</div>';
+    echo '<div class="loading-spinner">Version Originale</div>';
 else {
     $version = $_GET['choixVer'];
 
@@ -249,7 +245,7 @@ else {
             </div>
 
             <div class="comparative-table glass">
-                <h2><i class="fas fa-table-list"></i> Tableau comparatif des portages</h2>
+                <h2>Tableau comparatif des portages</h2>
                 <div class="table-responsive">
                     <table class="compare-table">
                         <thead>
@@ -334,7 +330,7 @@ while ($row = $data->fetch_assoc()) {
             </div>
 
             <div id="ici" class="changes-section glass">
-                <h2><i class="fas fa-language"></i> Détails des changements</h2>
+                <h2>Détails des changements</h2>
                 <form action="#" method="GET">
 
 <?php 
@@ -390,7 +386,7 @@ echo '</form>';
 echo '<div id="changesGrid" class="changes-grid">';
 //affichage de la liste des changements pour chaque catégorie
 if (!isset($_GET['submitPort']) || $_GET['choixPort'] == 0 )
-    echo '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i>Portage Original</div>';
+    echo '<div class="loading-spinner">Portage Original</div>';
 else {
     $port = $_GET['choixPort'];
     //catégorie Gameplay
@@ -431,7 +427,7 @@ else {
             </div>
 
             <div class="comparative-table glass">
-                <h2><i class="fas fa-table-list"></i> Tableau comparatif des localisations</h2>
+                <h2>Tableau comparatif des localisations</h2>
                 <div class="table-responsive">
                     <table class="compare-table">
                         <thead>
@@ -513,7 +509,7 @@ while ($row = $data->fetch_assoc()) {
             </div>
 
             <div class="changes-section glass">
-                <h2><i class="fas fa-language"></i> Détails des changements</h2>
+                <h2>Détails des changements</h2>
                 <form action="#" method="GET">
 
 <?php 
@@ -577,7 +573,7 @@ echo '</form>';
 echo '<div id="changesGrid" class="changes-grid">';
 //affichage de la liste des changements pour chaque catégorie
 if (!isset($_GET['submitLoca']) || $_GET['choixLoca'] == 0 )
-    echo '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i>Localisation Originale</div>';
+    echo '<div class="loading-spinner">Localisation Originale</div>';
 else {
     $loca = $_GET['choixLoca'];
     //catégorie Gameplay
@@ -618,7 +614,7 @@ else {
             </div>
 
             <div class="changes-section glass">
-                <h2><i class="fas fa-language"></i> Image de la boite de jeu</h2>
+                <h2>Image de la boite de jeu</h2>
                 <div id="changesGrid" class="change-card">
 
 <?php 
@@ -707,7 +703,7 @@ echo '<img src="data:image/jpg;base64,'.base64_encode($image) .'" alt="boxart" s
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-col">
-                <div class="footer-logo"><i class="fas fa-gamepad"></i><span>Game<span>Versions</span></span></div>
+                <div class="footer-logo"><span>Game<span>Versions</span></span></div>
                 <p>Le comparateur de versions de jeux vidéo.</p>
             </div>
             <div class="footer-col">

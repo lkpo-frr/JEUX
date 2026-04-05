@@ -13,19 +13,16 @@
         <div class="nav-container">
             <div class="logo" id="easterEggTrigger">
                 <div class="logo-3d">
-                    <i class="fas fa-gamepad"></i>
                     <span>Game<span class="highlight">Versions</span></span>
                 </div>
             </div>
             <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
-                <a href="comparer.html"><i class="fas fa-chart-line"></i> Comparateur</a>
-                <a href="ajouter-jeu.html"><i class="fas fa-plus-circle"></i> Ajouter</a>
-                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
-                <a href="mentions-legales.html"><i class="fas fa-gavel"></i> Mentions</a>
+                <a href="index.html">Accueil</a>
+                <a href="ajouter-jeu.html">Ajouter</a>
+                <a href="contact.html">Contact</a>
+                <a href="mentions-legales.html">Mentions</a>
             </div>
             <div class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
             </div>
         </div>
     </nav>
@@ -33,12 +30,12 @@
     <main class="form-page">
         <div class="container">
             <div class="form-container glass">
-                <h1><i class="fas fa-code-branch"></i> Ajouter une version</h1>
+                <h1>Ajouter une version</h1>
                 <p class="form-subtitle">Ajoutez une nouvelle version (remake, remaster) à un jeu existant</p>
 
                 <form action="ajouter-version-action.php" method="POST" id="addVersionForm">
                     <div class="form-section">
-                        <h2><i class="fas fa-gamepad"></i> Nom du jeu</h2>
+                        <h2>Nom du jeu</h2>
                         <div class="form-group">
 
 <?php 
@@ -69,7 +66,7 @@ echo '<input type="hidden" name="id" value='.$id.'>';
                     </div>
 
                     <div class="form-section">
-                        <h2><i class="fas fa-info-circle"></i> Informations de la version</h2>
+                        <h2>Informations de la version</h2>
                         
                         <div class="form-group">
                             <label>Nom de la version *</label>
@@ -116,13 +113,13 @@ echo '<input type="hidden" name="id" value='.$id.'>';
 
                         <div class="form-group">
                             <label>Description (moins de 200 caractères)</label>
-                            <textarea name="description" rows="3" placeholder="Description de cette version..."></textarea>
+                            <textarea name="description" rows="3" placeholder="Description de cette version..." maxlength="200"></textarea>
                         </div>
                     </div>
 
                     <div class="form-actions">
-                        <button type="reset" class="btn-cancel"><i class="fas fa-times"></i> Annuler</button>
-                        <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Ajouter la version</button>
+                        <button type="reset" class="btn-cancel">Annuler</button>
+                        <button type="submit" class="btn-submit">Ajouter la version</button>
                     </div>
                 </form>
             </div>
@@ -133,7 +130,6 @@ echo '<input type="hidden" name="id" value='.$id.'>';
         <div class="footer-container">
             <div class="footer-col">
                 <div class="footer-logo">
-                    <i class="fas fa-gamepad"></i>
                     <span>Game<span>Versions</span></span>
                 </div>
                 <p>Le comparateur de versions de jeux vidéo.</p>

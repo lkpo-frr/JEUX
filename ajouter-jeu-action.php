@@ -13,18 +13,16 @@
         <div class="nav-container">
             <div class="logo" id="easterEggTrigger">
                 <div class="logo-3d">
-                    <i class="fas fa-gamepad"></i>
                     <span>Game<span class="highlight">Versions</span></span>
                 </div>
             </div>
             <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
-                <a href="ajouter-jeu.html" class="active"><i class="fas fa-plus-circle"></i> Ajouter</a>
-                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
-                <a href="mentions-legales.html"><i class="fas fa-gavel"></i> Mentions</a>
+                <a href="index.html">Accueil</a>
+                <a href="ajouter-jeu.html" class="active">Ajouter</a>
+                <a href="contact.html">Contact</a>
+                <a href="mentions-legales.html">Mentions</a>
             </div>
             <div class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
             </div>
         </div>
     </nav>
@@ -87,7 +85,6 @@ echo '<button type="button" class="btn-submit" onclick="window.location.href=\'i
         <div class="footer-container">
             <div class="footer-col">
                 <div class="footer-logo">
-                    <i class="fas fa-gamepad"></i>
                     <span>Game<span>Versions</span></span>
                 </div>
                 <p>Le comparateur de versions de jeux vidéo.</p>

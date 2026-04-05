@@ -13,18 +13,16 @@
         <div class="nav-container">
             <div class="logo" id="easterEggTrigger">
                 <div class="logo-3d">
-                    <i class="fas fa-gamepad"></i>
                     <span>Game<span class="highlight">Versions</span></span>
                 </div>
             </div>
             <div class="nav-links">
-                <a href="index.html" class="active"><i class="fas fa-home"></i> Accueil</a>
-                <a href="ajouter-jeu.html"><i class="fas fa-plus-circle"></i> Ajouter</a>
-                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
-                <a href="mentions-legales.html"><i class="fas fa-gavel"></i> Mentions</a>
+                <a href="index.html" class="active">Accueil</a>
+                <a href="ajouter-jeu.html">Ajouter</a>
+                <a href="contact.html">Contact</a>
+                <a href="mentions-legales.html">Mentions</a>
             </div>
             <div class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
             </div>
         </div>
     </nav>
@@ -58,7 +56,7 @@
                 <form action="indexfiltre.php" method="GET" id="rechercheCat">
                     <div class="form-row">
                         <div class="form-group">
-                            <label><i class="fas fa-tag"></i> Genre</label>
+                            <label>Genre</label>
                             <select name="genre">
                                 <option value="0">Sélectionner</option>
                                 <option value="JRPG">JRPG</option>
@@ -68,7 +66,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label><i class="fas fa-tag"></i> Difficulté</label>
+                            <label>Difficulté</label>
                             <select name="difficulte">
                                 <option value="0">Sélectionner</option>
                                 <option value="1">Facile</option>
@@ -78,12 +76,12 @@
                         </div>
 
                         <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Année de sortie originale</label>
+                                <label>Année de sortie originale</label>
                                 <input type="number" name="dateSortie">
                         </div>
 
                         <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Nombre total de versions</label>
+                                <label>Nombre total de versions</label>
                                 <input type="number" name="nbVersions" maxlength="2">
                         </div>
 
@@ -99,7 +97,7 @@
     <section id="ici" class="games-section">
         <div class="container">
             <div class="section-header">
-                <h2><i class="fas fa-gamepad"></i> Jeux</h2>
+                <h2>Jeux</h2>
             </div>
             <div class="games-grid" id="gamesGrid">
                 
@@ -160,7 +158,6 @@ while ($row = $data->fetch_assoc()) {
         <div class="footer-container">
             <div class="footer-col">
                 <div class="footer-logo">
-                    <i class="fas fa-gamepad"></i>
                     <span>Game<span>Versions</span></span>
                 </div>
                 <p>Le comparateur de versions de jeux vidéo. Trouvez la meilleure version de vos jeux préférés.</p>
@@ -187,7 +184,7 @@ while ($row = $data->fetch_assoc()) {
                 <p>Recevez les dernières comparaisons</p>
                 <div class="newsletter-form">
                     <input type="email" placeholder="Votre email">
-                    <button><i class="fas fa-paper-plane"></i></button>
+                    <button></button>
                 </div>
             </div>
         </div>
