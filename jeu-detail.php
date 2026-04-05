@@ -318,9 +318,9 @@ while ($row = $data->fetch_assoc()) {
     echo $row['dateSortie'].'</td><td>';
     //affiche note si n'est pas l'original
     if ($row['original'] ==1)
-        echo 'Original</td><td>';
+        echo 'Original</td></tr>';
     else 
-        echo $row['notePortage'].'</td><td>';
+        echo $row['notePortage'].'</td></tr>';
 }
 
 ?>
@@ -332,7 +332,7 @@ while ($row = $data->fetch_assoc()) {
 
             <div id="ici" class="changes-section glass">
                 <h2><i class="fas fa-language"></i> Détails des changements</h2>
-                <form action="jeu-detail.php" method="GET">
+                <form action="#" method="GET">
 
 <?php 
 
@@ -370,7 +370,7 @@ while ($row = $data->fetch_assoc()) {
         echo '<label><input type="radio" name="choixPort" value="0"';
     else
         echo '<label><input type="radio" name="choixPort" value="'.$row['numPortage'].'"';
-    //permet de cocher automatiquement la version qui a été sélectionnée
+    //permet de cocher automatiquement le port qui a été sélectionné
     //submitPort permet de savoir si on a coché un port
     if (!isset($_GET['submitPort']) && $row['original'] == 1)
         echo ' checked >'.$row['nom'].'     '.'</label>';
@@ -432,10 +432,78 @@ else {
                 <div class="table-responsive">
                     <table class="compare-table">
                         <thead>
-                            <tr><th>Plateforme</th><th>Résolution</th><th>Framerate</th><th>Stabilité</th><th>Latence</th><th>Date sortie</th><th>Note</th></tr>
+                            <tr><th>Région</th><th>Date de sortie</th><th>Contenu modifié ?</th></tr>
                         </thead>
                         <tbody id="portageTableBody">
-                            <tr><td colspan="7" class="loading-spinner">Chargement...</td></tr>
+
+<?php 
+//récupère les infos sur les localisations de la version originale et du portage original du jeu
+function getInfosLocaOriginal($id) {
+    $req = "SELECT numLocalisation, l.region, l.dateSortie, l.modifContenu, l.original
+            FROM jeu j INNER JOIN version v
+            ON j.numJeu = v.numJeu
+            INNER JOIN portage p
+            ON v.numVersion = p.numVersion
+            INNER JOIN localisation l
+            ON p.numPortage = l.numPortage
+            WHERE v.original = 1
+            AND p.original = 1
+            AND j.numJeu = ".$id;
+
+    $data = requeteSQL($req);
+    return $data;
+} 
+
+//récupère les infos sur les localisations de la version en argument
+function getInfosLocaVer($version) {
+    $req = "SELECT numLocalisation, l.region, l.dateSortie, l.modifContenu, l.original
+            FROM version v INNER JOIN portage p
+            ON v.numVersion = p.numVersion
+            INNER JOIN localisation l
+            ON p.numPortage = l.numPortage
+            AND p.original = 1
+            AND v.numVersion = ".$version;
+
+    $data = requeteSQL($req);
+    return $data;
+} 
+
+//récupère les infos sur les localisations du portage en argument
+function getInfosLoca($port) {
+    $req = "SELECT numLocalisation, l.region, l.dateSortie, l.modifContenu, l.original
+            FROM portage p INNER JOIN localisation l
+            ON p.numPortage = l.numPortage
+            AND p.numPortage = ".$port;
+
+    $data = requeteSQL($req);
+    return $data;
+} 
+
+//on récupère les données de localisation en fonction soit du numéro du port , de la version ou du jeu
+if (isset($_GET['submitPort']) && $_GET['choixPort'] != 0 ) {
+    $port = $_GET['choixPort'];
+    $data = getInfosLoca($port);
+} else if (isset($_GET['submitVer']) && $_GET['choixVer'] != 0) {
+    $version = $_GET['choixVer'];
+    $data = getInfosLocaVer($version);
+} else {
+    $id = $_GET['id'];
+    $data = getInfosLocaOriginal($id);
+}
+
+//remplit le tableau comparant les localisations
+while ($row = $data->fetch_assoc()) {
+    echo '<tr><td>'.$row['region'].'</td><td>'.$row['dateSortie'].'</td><td>';
+
+    //affiche si la localisation a modifié le contenu
+    if ($row['modifContenu'] ==1)
+        echo '⚠️Oui</td></tr>';
+    else
+        echo 'Non</td></tr>';
+}
+
+?>
+
                         </tbody>
                     </table>
                 </div>
@@ -443,15 +511,190 @@ else {
 
             <div class="changes-section glass">
                 <h2><i class="fas fa-language"></i> Détails des changements</h2>
-                <div id="changesGrid" class="changes-grid">
-                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
+                <form action="#" method="GET">
+
+<?php 
+
+//récupère la liste des changements d'une localisation d'un certain type
+function getChangeLoca($loca, $type) {
+    $req = "SELECT c.type, c.description, c.important 
+            FROM `changeLocale` c INNER JOIN localisation l
+            ON c.numLocalisation = l.numLocalisation
+            WHERE l.numLocalisation = ".$loca;
+
+    $req = $req." AND c.type ='".$type."'
+            ORDER BY important DESC;";
+
+    $data = requeteSQL($req);
+    return $data;
+}
+
+$id = $_GET['id'];
+$version = 0;
+$port = 0;
+
+//on récupère les données de localisation en fonction soit du numéro du port , de la version ou du jeu
+if (isset($_GET['submitPort']) && $_GET['choixPort'] != 0 ) {
+    $port = $_GET['choixPort'];
+    $version = $_GET['choixVer'];
+    $data = getInfosLoca($port);
+} else if (isset($_GET['submitVer']) && $_GET['choixVer'] != 0) {
+    $version = $_GET['choixVer'];
+    $data = getInfosLocaVer($version);
+} else {
+    $data = getInfosLocaOriginal($id);
+}
+
+//on conserve la valeur de l'id du jeu, de la version et du port
+echo '<input type="hidden" name="id" value='.$id.'>';
+echo '<input type="hidden" name="choixVer" value='.$version.'>';
+echo '<input type="hidden" name="submitVer" value="">';
+echo '<input type="hidden" name="choixPort" value='.$port.'>';
+echo '<input type="hidden" name="submitPort" value="">';
+//crée un bouton radio pour chaque localisation, de valeur 0 si c'est l'original ou égale à numPortage sinon
+while ($row = $data->fetch_assoc()) {
+    if ($row['original'] == 1)
+        echo '<label><input type="radio" name="choixLoca" value="0"';
+    else
+        echo '<label><input type="radio" name="choixLoca" value="'.$row['numLocalisation'].'"';
+    //permet de cocher automatiquement la localisation qui a été sélectionnée
+    //submitLoca permet de savoir si on a coché une localisation
+    if (!isset($_GET['submitLoca']) && $row['original'] == 1)
+        echo ' checked >'.$row['region'].'     '.'</label>';
+    else if (isset($_GET['submitLoca']) && $_GET['choixLoca'] == 0 && $row['original'] == 1)
+        echo ' checked >'.$row['region'].'     '.'</label>';
+    else if (isset($_GET['submitLoca']) && $row['numLocalisation'] == $_GET['choixLoca'])
+        echo ' checked >'.$row['region'].'     '.'</label>';
+    else
+        echo ' >'.$row['region'].'     '.'</label>';
+}
+echo '<button type="submit" name="submitLoca" class="btn-add-version">Valider</button>';
+echo '</form>';
+
+echo '<div id="changesGrid" class="changes-grid">';
+//affichage de la liste des changements pour chaque catégorie
+if (!isset($_GET['submitLoca']) || $_GET['choixLoca'] == 0 )
+    echo '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i>Localisation Originale</div>';
+else {
+    $loca = $_GET['choixLoca'];
+    //catégorie Gameplay
+    $data = getChangeLoca($loca, 'Gameplay');
+    echo '<div class="change-card censorship"><h3>Gameplay</h3><ul class="change-card">';
+    while ($row = $data->fetch_assoc()) {
+        if ($row['important'] == 1)
+            echo '<li>'.$row['description'].'</li>';
+        else
+            echo '<li><em>'.$row['description'].'</em></li>';
+    }
+    echo '</ul></div>';
+    //catégorie Traduction
+    $data = getChangeLoca($loca, 'Traduction');
+    echo '<div class="change-card restored"><h3>Traduction</h3><ul class="change-card">';
+    while ($row = $data->fetch_assoc()) {
+        if ($row['important'] == 1)
+            echo '<li>'.$row['description'].'</li>';
+        else
+            echo '<li><em>'.$row['description'].'</em></li>';
+    }
+    echo '</ul></div>';
+    //catégorie Censure
+    $data = getChangeLoca($loca, 'Censure');
+    echo '<div class="change-card easter"><h3>Censure</h3><ul class="change-card">';
+    while ($row = $data->fetch_assoc()) {
+        if ($row['important'] == 1)
+            echo '<li>'.$row['description'].'</li>';
+        else
+            echo '<li><em>'.$row['description'].'</em></li>';
+    }
+    echo '</ul></div>';
+}
+    
+?>
+
                 </div>
             </div>
 
             <div class="changes-section glass">
                 <h2><i class="fas fa-language"></i> Image de la boite de jeu</h2>
-                <div id="changesGrid" class="changes-grid">
-                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
+                <div id="changesGrid" class="change-card">
+
+<?php 
+//récupère l'image du jeu à partir de son Id uniquement
+function getImageId($id) {
+    $req = "SELECT l.image
+            FROM jeu j INNER JOIN version v
+            ON j.numJeu = v.numJeu
+            INNER JOIN portage p
+            ON v.numVersion = p.numVersion
+            INNER JOIN localisation l
+            ON p.numPortage = l.numPortage
+            WHERE v.original = 1
+            AND p.original = 1
+            AND l.original = 1
+            AND j.numJeu = $id";
+
+    $data = requeteSQL($req);
+    return $data;
+}
+
+//récupère l'image du jeu à partir de son numéro de version
+function getImageVer($version) {
+    $req = "SELECT l.image
+            FROM version v INNER JOIN portage p
+            ON v.numVersion = p.numVersion
+            INNER JOIN localisation l
+            ON p.numPortage = l.numPortage
+            WHERE p.original = 1
+            AND l.original = 1
+            AND v.numVersion = $version;";
+
+    $data = requeteSQL($req);
+    return $data;
+}
+
+//récupère l'image du jeu à partir de son numéro de portage
+function getImagePort($port) {
+    $req = "SELECT l.image
+            FROM portage p INNER JOIN localisation l
+            ON p.numPortage = l.numPortage
+            WHERE l.original = 1
+            AND p.numPortage = $port;";
+
+    $data = requeteSQL($req);
+    return $data;
+}
+
+//récupère l'image du jeu à partir de son numéro de localisation
+function getImageLoca($loca) {
+    $req = "SELECT l.image
+            FROM localisation l
+            WHERE l.numLocalisation = $loca;";
+
+    $data = requeteSQL($req);
+    return $data;
+}
+
+//on récupère l'image en fonction soit du numéro de localisation, du port , de la version ou du jeu
+if (isset($_GET['submitLoca']) && $_GET['choixLoca'] != 0 ) {
+    $loca = $_GET['choixLoca'];
+    $data = getImageLoca($loca);
+} else if (isset($_GET['submitPort']) && $_GET['choixPort'] != 0 ) {
+    $port = $_GET['choixPort'];
+    $data = getImagePort($port);
+} else if (isset($_GET['submitVer']) && $_GET['choixVer'] != 0) {
+    $version = $_GET['choixVer'];
+    $data = getImageVer($version);
+} else {
+    $id = $_GET['id'];
+    $data = getImageId($id);
+}
+
+$row = $data->fetch_assoc();
+$image = $row['image'];
+
+echo '<img src="data:image/jpg;base64,'.base64_encode($image) .'" alt="boxart" style="width:100%; height:100%; object-fit:cover;">';
+?>
+
                 </div>
             </div>
 
