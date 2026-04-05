@@ -36,12 +36,35 @@
                 <h1><i class="fas fa-code-branch"></i> Ajouter une version</h1>
                 <p class="form-subtitle">Ajoutez une nouvelle version (remake, remaster) à un jeu existant</p>
 
-                <form id="addVersionForm">
+                <form action="ajouter-version-action.php" method="POST" id="addVersionForm">
                     <div class="form-section">
-                        <h2><i class="fas fa-gamepad"></i> Sélectionner le jeu</h2>
+                        <h2><i class="fas fa-gamepad"></i> Nom du jeu</h2>
                         <div class="form-group">
-                            <label>Jeu *</label>
-                            <input type="text" placeholder="Ex: Final Fantasy VII" required>
+
+<?php 
+//fonction de connexion et requete (requeteSQL) dans un script séparé
+include("connexion.php");
+//pour récupérer le nom du jeu à partir de son id
+function getNomJeu($id) {
+    $req = "SELECT nom FROM jeu WHERE numJeu = $id;";
+
+    $data = requeteSQL($req);
+    return $data;
+}
+
+$id = $_GET['id'];
+$data = getNomJeu($id);
+$row = $data->fetch_assoc();
+$nom = $row['nom'];
+
+//permet d'afficher le nom du bon jeu
+echo '<input type="text" name="nomJeu" value="'.$nom.'" disabled>';
+//permet d'envoyer l'id du jeu avec le form
+echo '<input type="hidden" name="id" value='.$id.'>';
+
+?>
+
+                            
                         </div>
                     </div>
 
@@ -50,68 +73,50 @@
                         
                         <div class="form-group">
                             <label>Nom de la version *</label>
-                            <input type="text" placeholder="Ex: PlayStation 4 Remaster" required>
+                            <input type="text" name="nomVer" placeholder="Ex: Remake 3D" minlength="3" 
+                            pattern="[A-Z]([A-Za-z0-9' ]*)" title="Le nom doit commencer par une majuscule et ne pas avoir de caractères spéciaux" required>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Type de version *</label>
-                                <select required>
-                                    <option>Original</option>
-                                    <option>Remake</option>
-                                    <option>Remaster</option>
+                                <label>Type de version</label>
+                                <select name="original" required>
+                                    <option value="1">Original</option>
+                                    <option value="0" selected>Autre</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Date de sortie *</label>
-                                <input type="date" required>
+                                <input name="dateSortie" type="date" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Contenu additionnel ?</label>
-                                <select>
-                                        <option>Oui</option>
-                                        <option>Non</option>
+                                <select name="addi">
+                                        <option value="1">Oui</option>
+                                        <option value="0" selected>Non</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Note /10 (5 = équivalent à l'original)</label>
-                                <input type="number" step="1" min="0" max="10" placeholder="5">
+                                <label>Difficulté par rapport à l'original ?</label>
+                                <select name="diff">
+                                        <option value="1">Plus difficile</option>
+                                        <option value="0" selected>Identique</option>
+                                        <option value="-1">Moins difficile</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label>Description</label>
-                            <textarea rows="3" placeholder="Description de cette version..."></textarea>
+                            <label>Note /10 (5 = équivalent à l'original)</label>
+                            <input name="note" type="number" step="1" min="0" max="10" placeholder="5">
                         </div>
-                    </div>
 
-                    <div class="form-section">
-                        <h2><i class="fas fa-desktop"></i> Informations portage</h2>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Plateforme</label>
-                                <input type="text" placeholder="Playstation 2">
-                            </div>
-                            <div class="form-group">
-                                <label>Résolution</label>
-                                <input type="text" placeholder="1920 x 1080">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Framerate (fps)</label>
-                                <input type="number" placeholder="60">
-                            </div>
-                            <div class="form-group">
-                                <label>Stable ?</label>
-                                <select>
-                                    <option>Oui</option>
-                                    <option>Non</option>
-                                </select>
-                            </div>
+                        <div class="form-group">
+                            <label>Description (moins de 200 caractères)</label>
+                            <textarea name="description" rows="3" placeholder="Description de cette version..."></textarea>
                         </div>
                     </div>
 

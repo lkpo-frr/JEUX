@@ -40,7 +40,7 @@ CREATE TABLE version (
   numVersion INT NOT NULL AUTO_INCREMENT,
   nom VARCHAR(100) NOT NULL,
   dateSortie DATE NOT NULL,
-  description VARCHAR(200) NOT NULL,
+  description VARCHAR(200),
   difficulteRelative INT NOT NULL,
   contenuAdditionnel TINYINT(1) NOT NULL,
   noteVersion INT,
