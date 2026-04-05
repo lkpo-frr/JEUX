@@ -223,9 +223,9 @@ else {
     echo '<div class="change-card censorship"><h3>Gameplay</h3><ul class="change-card">';
     while ($row = $data->fetch_assoc()) {
         if ($row['important'] == 1)
-            echo '<li>● '.$row['description'].'</li>>';
+            echo '<li>● '.$row['description'].'</li>';
         else
-            echo '<li>○ <em>'.$row['description'].'</em></li>>';
+            echo '<li>○ <em>'.$row['description'].'</em></li>';
     }
     echo '</ul></div>';
 
@@ -233,9 +233,9 @@ else {
     echo '<div class="change-card restored"><h3>Graphismes</h3><ul class="change-card">';
     while ($row = $data->fetch_assoc()) {
         if ($row['important'] == 1)
-            echo '<li>● '.$row['description'].'</li>>';
+            echo '<li>● '.$row['description'].'</li>';
         else
-            echo '<li>○ <em>'.$row['description'].'</em></li>>';
+            echo '<li>○ <em>'.$row['description'].'</em></li>';
     }
     echo '</ul></div>';
 }
