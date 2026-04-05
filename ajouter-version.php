@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVersions - Ajouter une version</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="particles-canvas"></div>
+    
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo" id="easterEggTrigger">
+                <div class="logo-3d">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Game<span class="highlight">Versions</span></span>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+                <a href="comparer.html"><i class="fas fa-chart-line"></i> Comparateur</a>
+                <a href="ajouter-jeu.html"><i class="fas fa-plus-circle"></i> Ajouter</a>
+                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+                <a href="mentions-legales.html"><i class="fas fa-gavel"></i> Mentions</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="form-page">
+        <div class="container">
+            <div class="form-container glass">
+                <h1><i class="fas fa-code-branch"></i> Ajouter une version</h1>
+                <p class="form-subtitle">Ajoutez une nouvelle version (remake, remaster) à un jeu existant</p>
+
+                <form id="addVersionForm">
+                    <div class="form-section">
+                        <h2><i class="fas fa-gamepad"></i> Sélectionner le jeu</h2>
+                        <div class="form-group">
+                            <label>Jeu *</label>
+                            <input type="text" placeholder="Ex: Final Fantasy VII" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2><i class="fas fa-info-circle"></i> Informations de la version</h2>
+                        
+                        <div class="form-group">
+                            <label>Nom de la version *</label>
+                            <input type="text" placeholder="Ex: PlayStation 4 Remaster" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Type de version *</label>
+                                <select required>
+                                    <option>Original</option>
+                                    <option>Remake</option>
+                                    <option>Remaster</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date de sortie *</label>
+                                <input type="date" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Contenu additionnel ?</label>
+                                <select>
+                                        <option>Oui</option>
+                                        <option>Non</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Note /10 (5 = équivalent à l'original)</label>
+                                <input type="number" step="1" min="0" max="10" placeholder="5">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea rows="3" placeholder="Description de cette version..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2><i class="fas fa-desktop"></i> Informations portage</h2>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Plateforme</label>
+                                <input type="text" placeholder="Playstation 2">
+                            </div>
+                            <div class="form-group">
+                                <label>Résolution</label>
+                                <input type="text" placeholder="1920 x 1080">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Framerate (fps)</label>
+                                <input type="number" placeholder="60">
+                            </div>
+                            <div class="form-group">
+                                <label>Stable ?</label>
+                                <select>
+                                    <option>Oui</option>
+                                    <option>Non</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="reset" class="btn-cancel"><i class="fas fa-times"></i> Annuler</button>
+                        <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Ajouter la version</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Game<span>Versions</span></span>
+                </div>
+                <p>Le comparateur de versions de jeux vidéo.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Liens rapides</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Légal</h4>
+                <ul>
+                    <li><a href="mentions-legales.html">Mentions légales</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 GameVersions - Tous droits réservés</p>
+        </div>
+    </footer>
+
+</body>
+</html>

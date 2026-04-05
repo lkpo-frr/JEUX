@@ -48,14 +48,14 @@ function getInfosJeu($id) {
 (SELECT COUNT(v.numVersion) AS nbver 
             FROM jeu j INNER JOIN version v
             ON j.numJeu = v.numJeu
-            WHERE j.numJeu =".$id.") AS nbVer,
+            WHERE j.numJeu =$id) AS nbVer,
 
 (SELECT COUNT(v.numVersion) AS nbver
             FROM jeu j INNER JOIN version v
             ON j.numJeu = v.numJeu
             INNER JOIN portage p
             ON v.numVersion = p.numVersion
-            WHERE j.numJeu =".$id.") AS nbPorts
+            WHERE j.numJeu =$id) AS nbPorts
             
             FROM jeu j INNER JOIN version v
             ON j.numJeu = v.numJeu
@@ -66,7 +66,7 @@ function getInfosJeu($id) {
             WHERE v.original = 1
             AND p.original = 1
             AND l.original = 1
-            AND j.numJeu =".$id;
+            AND j.numJeu =$id;";
 
     $data = requeteSQL($req);
     return $data;
@@ -95,13 +95,16 @@ echo '<div class="jeu-info">';
         echo '</div>';
     echo '</div>';
 
+    //début du formulaire qui permet d'ajouter une nouvelle version en récupérant automatiquement l'id du jeu
+    echo '<form action="ajouter-version.php" method="GET">';
+        echo '<input type="hidden" name="id" value='.$id.'>';
+
 ?>
 
-
-
-                    <button class="btn-add-version" onclick="window.location.href='ajouter-version.html'">
-                        <i class="fas fa-plus"></i> Ajouter une Version
-                    </button>
+                        <button class="btn-add-version" type="submit">
+                            <i class="fas fa-plus"></i> Ajouter une Version
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -692,7 +695,7 @@ if (isset($_GET['submitLoca']) && $_GET['choixLoca'] != 0 ) {
 $row = $data->fetch_assoc();
 $image = $row['image'];
 
-echo '<img src="data:image/jpg;base64,'.base64_encode($image) .'" alt="boxart" style="width:100%; height:100%; object-fit:cover;">';
+echo '<img src="data:image/jpg;base64,'.base64_encode($image) .'" alt="boxart" style="width:80%; height:80%; object-fit:cover;">';
 ?>
 
                 </div>
