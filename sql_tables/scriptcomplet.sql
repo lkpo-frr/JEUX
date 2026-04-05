@@ -57,7 +57,7 @@ CREATE TABLE version (
 CREATE TABLE portage (
   numPortage INT NOT NULL AUTO_INCREMENT,
   dateSortie DATE NOT NULL,
-  resolution VARCHAR(10),
+  resolution VARCHAR(15),
   framerate INT,
   stable TINYINT(1),
   lagSup TINYINT(1),
@@ -163,7 +163,9 @@ INSERT INTO portage VALUES
 (5, '2011-03-24', '480 x 272', 60, 1, 0, 1, 8, 0, 20, 27),
 (10, '1998-12-21', '320 x 240', 20, 1, 0, 0, NULL, 1, 1, 4),
 (20, '2005-01-11', '720 x 480', 30, 1, 0, 0, NULL, 1, 10, 5),
-(30, '1997-01-31', '320 x 240', 15, 0, 0, 0, NULL, 1, 30, 20);
+(30, '1997-01-31', '320 x 240', 15, 0, 0, 0, NULL, 1, 30, 20),
+(6, '2007-12-20', '256 x 192', 15, 1, 0, 0, NULL, 1, 21, 12),
+(7, '2021-09-08', '1920 x 1080', 60, 0, 0, 0, NULL, 1, 22, 1);
 
 INSERT INTO localisation VALUES
 (1, 'Japan', '1991-07-19', 0, NULL, 1, 1),
@@ -173,7 +175,9 @@ INSERT INTO localisation VALUES
 (5, 'Europe', '2002-05-01', 1, NULL, 0, 2),
 (6, 'Japan', '1998-12-21', 0, NULL, 1, 10),
 (7, 'Japan', '2005-01-11', 0, NULL, 1, 20),
-(8, 'Japan', '1997-01-31', 0, NULL, 1, 30);
+(8, 'Japan', '1997-01-31', 0, NULL, 1, 30),
+(9, 'Japan', '2007-12-20', 0, NULL, 1, 6),
+(10, 'International', '2021-09-08', 0, NULL, 1, 7);
 
 INSERT INTO changeVersion VALUES 
 (1, 'Graphismes', 'Le jeu a été entièrement refait avec Unity', 1, 22),
@@ -183,7 +187,8 @@ INSERT INTO changeVersion VALUES
 (5, 'Gameplay', 'L\'efficacité des potions a été augmentée', 0, 22),
 (6, 'Gameplay', 'Il est possible de courir et de se déplacer dans 8 directions, les déplacements sont donc bien plus rapides', 1, 22),
 (7, 'Gameplay', 'Il est possible de marcher derrière les arbres et colonnes, ce qui fait que de nombreuses zones du jeu ont maintenant des raccourcis', 1, 22),
-(20, 'Gameplay', 'Le jeu est nettement plus difficile que la version originale, notamment parce que les ennemis ont plus de PV et infligent plus de dégats', 1, 21);
+(20, 'Gameplay', 'Le jeu est nettement plus difficile que la version originale, notamment parce que les ennemis ont plus de PV et infligent plus de dégats', 1, 21),
+(21, 'Graphismes', 'Le jeu a été entièrement refait en 3D et des cinématiques ont été ajoutées', 1, 21);
 
 INSERT INTO changePortage VALUES 
 (1, 'Gameplay', 'Le jeu étant sur disque, les temps de chargement ont été augmentés entre les combats et lors des transitions entre écrans', 1, 2),
@@ -191,7 +196,7 @@ INSERT INTO changePortage VALUES
 (10, 'Contenu additionnel', '2 donjons optionnels ont été ajoutés : Cave of Trials et Lunar Ruins', 1, 4),
 (11, 'Contenu additionnel', 'Ajout d\'un bestiaire répertoriant les ennemis rencontrés', 0, 4),
 (12, 'Contenu additionnel', 'Après la fin du jeu, un music player est débloqué et permet de réécouter les musiques du jeu', 0, 4),
-(13, 'Bugs', 'Certains bugs ont été corrigés, et d\'autres ont été ajoutés', 0, 4),
+(13, 'Bugs', 'Certains bugs ont été corrigés, et d\'autres ont été ajoutés', 1, 4),
 (14, 'Gameplay', 'Il est possible de modifier la composition de l\'équipe', 1, 4);
 
 INSERT INTO changeLocale VALUES

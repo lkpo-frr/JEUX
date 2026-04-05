@@ -110,7 +110,7 @@ echo '<div class="jeu-info">';
                 <div class="table-responsive">
                     <table class="compare-table">
                         <thead>
-                            <tr><th>Nom</th><th>Date sortie</th><th>Contenu additionnel ?</th><th>Difficulté comparé à l'original</th><th>Note</th><th>Description</th></tr>
+                            <tr><th>Nom</th><th>Date sortie</th><th>Contenu additionnel ?</th><th>Difficulté comparé à l'original</th><th>Note /10 (5 = équivalent à l'original)</th><th>Description</th></tr>
                         </thead>
                         <tbody id="portageTableBody">
 
@@ -136,7 +136,7 @@ while ($row = $data->fetch_assoc()) {
     echo '<tr><td>'.$row['nom'].'</td><td>'.$row['dateSortie'].'</td><td>';
     //affiche s'il y a du contenu additionnel
     if ($row['addi'] ==1)
-        echo 'Oui</td><td>';
+        echo '✅Oui</td><td>';
     else 
         echo 'Non</td><td>';
 
@@ -174,7 +174,7 @@ while ($row = $data->fetch_assoc()) {
 
 <?php 
 
-//récupère la liste des changements d'une version triés par type
+//récupère la liste des changements d'une version d'un certain type
 function getChangeVer($version, $type) {
     $req = "SELECT c.type, c.description, c.important 
             FROM `changeVersion` c INNER JOIN version v
@@ -213,7 +213,7 @@ echo '<button type="submit" name="submitVer" class="btn-add-version">Valider</bu
 echo '</form>';
 
 echo '<div id="changesGrid" class="changes-grid">';
-//affichage de la liste des changements triés par catégories
+//affichage de la liste des changements pour chaque catégories
 if (!isset($_GET['submitVer']) || $_GET['choixVer'] == 0 )
     echo '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i>Version Originale</div>';
 else {
@@ -223,9 +223,9 @@ else {
     echo '<div class="change-card censorship"><h3>Gameplay</h3><ul class="change-card">';
     while ($row = $data->fetch_assoc()) {
         if ($row['important'] == 1)
-            echo '<li>● '.$row['description'].'</li>';
+            echo '<li>'.$row['description'].'</li>';
         else
-            echo '<li>○ <em>'.$row['description'].'</em></li>';
+            echo '<li><em>'.$row['description'].'</em></li>';
     }
     echo '</ul></div>';
 
@@ -233,9 +233,9 @@ else {
     echo '<div class="change-card restored"><h3>Graphismes</h3><ul class="change-card">';
     while ($row = $data->fetch_assoc()) {
         if ($row['important'] == 1)
-            echo '<li>● '.$row['description'].'</li>';
+            echo '<li>'.$row['description'].'</li>';
         else
-            echo '<li>○ <em>'.$row['description'].'</em></li>';
+            echo '<li><em>'.$row['description'].'</em></li>';
     }
     echo '</ul></div>';
 }
@@ -250,10 +250,81 @@ else {
                 <div class="table-responsive">
                     <table class="compare-table">
                         <thead>
-                            <tr><th>Plateforme</th><th>Résolution</th><th>Framerate</th><th>Stabilité</th><th>Latence</th><th>Date sortie</th><th>Note</th></tr>
+                            <tr><th>Plateforme</th><th>Résolution</th><th>Framerate</th><th>Stabilité</th><th>Latence supplémentaire</th><th>Contenu modifié ?</th><th>Date sortie</th><th>Note /10</th></tr>
                         </thead>
                         <tbody id="portageTableBody">
-                            <tr><td colspan="7" class="loading-spinner">Chargement...</td></tr>
+
+<?php 
+//récupère les infos sur les portages de la version originale du jeu
+function getInfosPortOriginal($id) {
+    $req = "SELECT numPortage, p.dateSortie, p.resolution, p.framerate, p.stable, 
+    p.lagSup, p.modifContenu, p.original, pla.nom, p.notePortage, v.numVersion AS ver
+            FROM jeu j INNER JOIN version v
+            ON j.numJeu = v.numJeu
+            INNER JOIN portage p
+            ON v.numVersion = p.numVersion
+            INNER JOIN plateforme pla
+            ON p.numPlateforme = pla.numPlateforme
+            WHERE v.original = 1
+            AND j.numJeu = ".$id;
+
+    $data = requeteSQL($req);
+    return $data;
+} 
+
+//récupère les infos sur les portages de la version en argument
+function getInfosPort($version) {
+    $req = "SELECT numPortage, p.dateSortie, p.resolution, p.framerate, p.stable, 
+    p.lagSup, p.modifContenu, p.original, pla.nom, p.notePortage
+            FROM version v INNER JOIN portage p
+            ON v.numVersion = p.numVersion
+            INNER JOIN plateforme pla
+            ON p.numPlateforme = pla.numPlateforme
+            WHERE v.numVersion = ".$version;
+
+    $data = requeteSQL($req);
+    return $data;
+} 
+
+if (!isset($_GET['submitVer']) || $_GET['choixVer'] == 0 ) {
+    $id = $_GET['id'];
+    $data = getInfosPortOriginal($id);
+} else {
+    $version = $_GET['choixVer'];
+    $data = getInfosPort($version);
+}
+
+//remplit le tableau comparant les ports
+while ($row = $data->fetch_assoc()) {
+    echo '<tr><td>'.$row['nom'].'</td><td>'.$row['resolution'].'</td><td>'.$row['framerate'].'</td><td>';
+    //affiche si le jeu est stable
+    if ($row['stable'] ==1)
+        echo 'Oui</td><td>';
+    else 
+        echo '⚠️Non</td><td>';
+
+    //affiche s'il a de la latence en plus
+    if ($row['lagSup'] ==1)
+        echo '⚠️Oui</td><td>';
+    else
+        echo 'Non</td><td>';
+
+    //affiche s'i a du contenu en plus
+    if ($row['modifContenu'] ==1)
+        echo '✅Oui</td><td>';
+    else
+        echo 'Non</td><td>';
+
+    echo $row['dateSortie'].'</td><td>';
+    //affiche note si n'est pas l'original
+    if ($row['original'] ==1)
+        echo 'Original</td><td>';
+    else 
+        echo $row['notePortage'].'</td><td>';
+}
+
+?>
+
                         </tbody>
                     </table>
                 </div>
@@ -261,8 +332,98 @@ else {
 
             <div id="ici" class="changes-section glass">
                 <h2><i class="fas fa-language"></i> Détails des changements</h2>
-                <div id="changesGrid" class="changes-grid">
-                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
+                <form action="jeu-detail.php" method="GET">
+
+<?php 
+
+//récupère la liste des changements d'un port d'un certain type
+function getChangePort($port, $type) {
+    $req = "SELECT c.type, c.description, c.important 
+            FROM `changePortage` c INNER JOIN portage p
+            ON c.numPortage = p.numPortage
+            WHERE p.numPortage = ".$port;
+
+    $req = $req." AND c.type ='".$type."'
+            ORDER BY important DESC;";
+
+    $data = requeteSQL($req);
+    return $data;
+}
+
+$id = $_GET['id'];
+
+if (!isset($_GET['submitVer']) || $_GET['choixVer'] == 0 ) {
+    $data = getInfosPortOriginal($id);
+    $version = 0;
+} else {
+    $version = $_GET['choixVer'];
+    $data = getInfosPort($version);
+}
+
+//on conserve la valeur de l'id du jeu et de la version
+echo '<input type="hidden" name="id" value='.$id.'>';
+echo '<input type="hidden" name="choixVer" value='.$version.'>';
+echo '<input type="hidden" name="submitVer" value="">';
+//crée un bouton radio pour chaque port, de valeur 0 si c'est l'original ou égale à numPortage sinon
+while ($row = $data->fetch_assoc()) {
+    if ($row['original'] == 1)
+        echo '<label><input type="radio" name="choixPort" value="0"';
+    else
+        echo '<label><input type="radio" name="choixPort" value="'.$row['numPortage'].'"';
+    //permet de cocher automatiquement la version qui a été sélectionnée
+    //submitPort permet de savoir si on a coché un port
+    if (!isset($_GET['submitPort']) && $row['original'] == 1)
+        echo ' checked >'.$row['nom'].'     '.'</label>';
+    else if (isset($_GET['submitPort']) && $_GET['choixPort'] == 0 && $row['original'] == 1)
+        echo ' checked >'.$row['nom'].'     '.'</label>';
+    else if (isset($_GET['submitPort']) && $row['numPortage'] == $_GET['choixPort'])
+        echo ' checked >'.$row['nom'].'     '.'</label>';
+    else
+        echo ' >'.$row['nom'].'     '.'</label>';
+}
+echo '<button type="submit" name="submitPort" class="btn-add-version">Valider</button>';
+echo '</form>';
+
+echo '<div id="changesGrid" class="changes-grid">';
+//affichage de la liste des changements pour chaque catégorie
+if (!isset($_GET['submitPort']) || $_GET['choixPort'] == 0 )
+    echo '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i>Portage Original</div>';
+else {
+    $port = $_GET['choixPort'];
+    //catégorie Gameplay
+    $data = getChangePort($port, 'Gameplay');
+    echo '<div class="change-card censorship"><h3>Gameplay</h3><ul class="change-card">';
+    while ($row = $data->fetch_assoc()) {
+        if ($row['important'] == 1)
+            echo '<li>'.$row['description'].'</li>';
+        else
+            echo '<li><em>'.$row['description'].'</em></li>';
+    }
+    echo '</ul></div>';
+    //catégorie Contenu additionnel
+    $data = getChangePort($port, 'Contenu additionnel');
+    echo '<div class="change-card restored"><h3>Contenu additionnel</h3><ul class="change-card">';
+    while ($row = $data->fetch_assoc()) {
+        if ($row['important'] == 1)
+            echo '<li>'.$row['description'].'</li>';
+        else
+            echo '<li><em>'.$row['description'].'</em></li>';
+    }
+    echo '</ul></div>';
+    //catégorie Bugs
+    $data = getChangePort($port, 'Bugs');
+    echo '<div class="change-card easter"><h3>Bugs</h3><ul class="change-card">';
+    while ($row = $data->fetch_assoc()) {
+        if ($row['important'] == 1)
+            echo '<li>'.$row['description'].'</li>';
+        else
+            echo '<li><em>'.$row['description'].'</em></li>';
+    }
+    echo '</ul></div>';
+}
+    
+?>
+
                 </div>
             </div>
 
@@ -282,6 +443,13 @@ else {
 
             <div class="changes-section glass">
                 <h2><i class="fas fa-language"></i> Détails des changements</h2>
+                <div id="changesGrid" class="changes-grid">
+                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
+                </div>
+            </div>
+
+            <div class="changes-section glass">
+                <h2><i class="fas fa-language"></i> Image de la boite de jeu</h2>
                 <div id="changesGrid" class="changes-grid">
                     <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
                 </div>

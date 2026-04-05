@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>requete mysql</title>
+<title>insertion images dans BD</title>
 </head>
    <body>
       <h3>Envoi des images dans la base de données</h3>
