@@ -32,51 +32,52 @@
 <?php 
 //fonction de connexion et requete (requeteSQL) dans un script séparé
 include("connexion.php");
-/*
-//insère un jeu dans la base, avec toutes les valeurs en arguments
-function insereJeu($id, $nom, $date, $genre, $difficulte) {
-    if ($difficulte > 0)
-        $req = "INSERT INTO jeu VALUES
-                ($id, '".$nom."', '".$date."', '".$genre."', $difficulte);";
+
+//insère une version dans la base, avec toutes les valeurs en arguments
+function insereVer($nom, $date, $description, $difficulte, $addi, $note, $original, $id) {
+    if ($note == NULL && $description == NULL)
+        $req = "INSERT INTO version (nom, dateSortie, description, difficulteRelative, contenuAdditionnel, noteVersion, original, numJeu)
+                VALUES ('".$nom."', '".$date."', NULL, $difficulte, $addi, NULL, $original, $id);";
+    else if ($note == NULL)
+        $req = "INSERT INTO version (nom, dateSortie, description, difficulteRelative, contenuAdditionnel, noteVersion, original, numJeu)
+                VALUES ('".$nom."', '".$date."', '".$description."', $difficulte, $addi, NULL, $original, $id);";
+    else if ($description == NULL)
+        $req = "INSERT INTO version (nom, dateSortie, description, difficulteRelative, contenuAdditionnel, noteVersion, original, numJeu)
+                VALUES ('".$nom."', '".$date."', NULL, $difficulte, $addi, $note, $original, $id);";
     else 
-        $req = "INSERT INTO jeu VALUES
-                ($id, '".$nom."', '".$date."', '".$genre."', NULL);";
+        $req = "INSERT INTO version (nom, dateSortie, description, difficulteRelative, contenuAdditionnel, noteVersion, original, numJeu)
+                VALUES ('".$nom."', '".$date."', '".$description."', $difficulte, $addi, $note, $original, $id);";
 
     requeteSQL($req);
     return true;
 }
 
-//renvoie vrai s'il esxiste au moins un jeu avec cet id
-function idPresent($id) {
-    $req = "SELECT * FROM jeu
-            WHERE numJeu = $id";
-
-    $data = requeteSQL($req);
-    if ($data->num_rows >0)
-        return true;
-    return false;
-}
-
 //on récupère les informations du formulaire 
-$nom = $_POST['nom'];
+$id = $_POST['id'];
+$nom = $_POST['nomVer'];
+$original = $_POST['original'];
 $date = $_POST['dateSortie'];
-$genre = $_POST['genre'];
-$difficulte = $_POST['difficulte'];
+$addi = $_POST['addi'];
+$difficulte = $_POST['diff'];
+if (isset($_POST['note']))
+    $note = $_POST['note'];
+else
+    $note = NULL;
 
-//on génère un id aléatoire et on vérifie qu'il n'y a pas déjà un jeu avec cet id
-do {
-    $id = rand(1,100000);
-} while (idPresent($id));
+if (isset($_POST['description']))
+    $description = $_POST['description'];
+else
+    $description = NULL;
 
-//on insère le jeu et on affiche un message
-if (insereJeu($id, $nom, $date, $genre, $difficulte)) {
-    echo '<h1>Jeu inséré dans la base !</h1>';
+//on insère la version et on affiche un message
+if (insereVer($nom, $date, $description, $difficulte, $addi, $note, $original, $id)) {
+    echo '<h1>Version insérée dans la base !</h1>';
 } else {
-    echo '<h1>Erreur lors de l\'insertion du jeu dans la base de données</h1>';
+    echo '<h1>Erreur lors de l\'insertion de la version dans la base de données</h1>';
 }
 echo '<p>Appuyer sur le bouton pour revenir à la page d\'accueil</p>';
 echo '<button type="button" class="btn-submit" onclick="window.location.href=\'index.html\'">Revenir à l\'accueil</button>';
-*/
+
 ?>
 
     </main>
