@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>GameVersions - Comparez toutes les versions de vos jeux vidéo</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script defer src="js/monscript.js"></script>
 </head>
 <body>
     <?php include('header.inc.php'); ?>
@@ -32,7 +34,7 @@
 
             <fieldset name="categories" class="description-card glass">
                 <legend>
-                    <b>Ou rechercher par catégories :</b>
+                    <b>Ou rechercher par catégories (cliquer ici pour voir) :</b>
                 </legend>
 
                 <form action="indexfiltre.php" method="GET" id="rechercheCat">
@@ -105,7 +107,7 @@ function getNomImage($recherche) {
     return $data;
 }
 
-
+//si on a entré le nom d'un jeu
 if (isset($_GET['submitNom'])) {
     //on récupère le nom rentré par l'utilisateur et on le transforme en lowercase
     $recherche = $_GET['nom'];
@@ -115,7 +117,6 @@ if (isset($_GET['submitNom'])) {
     $data = getNomImage($recherche);
 
     //affichage pour chaque jeu qui matche la recherche
-    //j'ai récupéré le contenu de la fonction generateGamesGrid dans le fichier js
     while ($row = $data->fetch_assoc()) {
         $image = $row['image'];
         echo '<div class="game-card" onclick="window.location.href=\'jeu-detail.html?id="'.$row['numJeu'].'\'">';

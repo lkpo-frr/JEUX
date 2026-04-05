@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>GameVersions - Comparez toutes les versions de vos jeux vidéo</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script defer src="js/monscript.js"></script>
 </head>
 <body>
     <?php include('header.inc.php'); ?>
@@ -32,7 +34,7 @@
 
             <fieldset name="categories" class="description-card glass">
                 <legend>
-                    <b>Ou rechercher par catégories :</b>
+                    <b>Ou rechercher par catégories (cliquer ici pour voir) :</b>
                 </legend>
 
                 <form action="#" method="GET" id="rechercheCat">

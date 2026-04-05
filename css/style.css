@@ -310,6 +310,12 @@ body {
     color: var(--text-dim);
 }
 
+legend:hover {
+    color: #0077ff;
+    text-decoration: underline;
+    text-decoration-color: #0077ff;
+}
+
 /* ==================== GAMES GRID ==================== */
 .section-header {
     text-align: center;
