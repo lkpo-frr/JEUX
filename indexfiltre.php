@@ -7,25 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="particles-canvas"></div>
-    
-    <nav class="glass-nav">
-        <div class="nav-container">
-            <div class="logo" id="easterEggTrigger">
-                <div class="logo-3d">
-                    <span>Game<span class="highlight">Versions</span></span>
-                </div>
-            </div>
-            <div class="nav-links">
-                <a href="index.html" class="active">Accueil</a>
-                <a href="ajouter-jeu.html">Ajouter</a>
-                <a href="contact.html">Contact</a>
-                <a href="mentions-legales.html">Mentions</a>
-            </div>
-            <div class="mobile-menu-btn">
-            </div>
-        </div>
-    </nav>
+    <?php include('header.inc.php'); ?>
 
     <header class="hero-3d">
         <div class="hero-content">
@@ -168,45 +150,7 @@ while ($row = $data->fetch_assoc()) {
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-col">
-                <div class="footer-logo">
-                    <span>Game<span>Versions</span></span>
-                </div>
-                <p>Le comparateur de versions de jeux vidéo. Trouvez la meilleure version de vos jeux préférés.</p>
-            </div>
-            <div class="footer-col">
-                <h4>À propos</h4>
-                <ul>
-                    <li><a href="#">Qui sommes-nous ?</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Légal</h4>
-                <ul>
-                    <li><a href="mentions-legales.html">Mentions légales</a></li>
-                    <li><a href="#">CGU</a></li>
-                    <li><a href="#">RGPD</a></li>
-                    <li><a href="#">Cookies</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Newsletter</h4>
-                <p>Recevez les dernières comparaisons</p>
-                <div class="newsletter-form">
-                    <input type="email" placeholder="Votre email">
-                    <button></button>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 GameVersions - Tous droits réservés</p>
-            <p class="disclaimer">Les marques et jeux cités sont la propriété de leurs détenteurs respectifs.</p>
-        </div>
-    </footer>
+    <?php include('footer.inc.php'); ?>
 
 </body>
 </html>

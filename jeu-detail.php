@@ -7,25 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="particles-canvas"></div>
-    
-    <nav class="glass-nav">
-        <div class="nav-container">
-            <div class="logo" id="easterEggTrigger">
-                <div class="logo-3d">
-                    <span>Game<span class="highlight">Versions</span></span>
-                </div>
-            </div>
-            <div class="nav-links">
-                <a href="index.html">Accueil</a>
-                <a href="ajouter-jeu.html">Ajouter</a>
-                <a href="contact.html">Contact</a>
-                <a href="mentions-legales.html">Mentions</a>
-            </div>
-            <div class="mobile-menu-btn">
-            </div>
-        </div>
-    </nav>
+    <?php include('header.inc.php'); ?>
 
     <main class="jeu-detail">
         <div class="container">
@@ -114,8 +96,6 @@ echo '<div class="jeu-info">';
                         <tbody id="portageTableBody">
 
 <?php 
-//fonction de connexion et requete (requeteSQL) dans un script séparé
-include_once("connexion.php");
 
 function getInfosVer($id) {
     $req = "SELECT v.numVersion, v.nom, v.dateSortie, v.contenuAdditionnel AS addi, 
@@ -700,23 +680,7 @@ echo '<img src="data:image/jpg;base64,'.base64_encode($image) .'" alt="boxart" s
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-col">
-                <div class="footer-logo"><span>Game<span>Versions</span></span></div>
-                <p>Le comparateur de versions de jeux vidéo.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Liens rapides</h4>
-                <ul><li><a href="index.html">Accueil</a></li><li><a href="contact.html">Contact</a></li></ul>
-            </div>
-            <div class="footer-col">
-                <h4>Légal</h4>
-                <ul><li><a href="mentions-legales.html">Mentions légales</a></li></ul>
-            </div>
-        </div>
-        <div class="footer-bottom"><p>&copy; 2026 GameVersions - Tous droits réservés</p></div>
-    </footer>
+    <?php include('footer.inc.php'); ?>
 
 </body>
 </html>    

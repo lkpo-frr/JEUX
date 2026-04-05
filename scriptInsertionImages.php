@@ -5,6 +5,7 @@
 <title>insertion images dans BD</title>
 </head>
    <body>
+
       <h3>Envoi des images dans la base de données</h3>
       <form action="#" method="get">
          <input type="submit" name="submit" value="Transférer les images" />
@@ -45,6 +46,5 @@
         echo "<p>Transfert dans la base de données réalisé avec succès !</p>";
     }
       ?>
-
    </body>
 </html>

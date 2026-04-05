@@ -7,25 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="particles-canvas"></div>
-    
-    <nav class="glass-nav">
-        <div class="nav-container">
-            <div class="logo" id="easterEggTrigger">
-                <div class="logo-3d">
-                    <span>Game<span class="highlight">Versions</span></span>
-                </div>
-            </div>
-            <div class="nav-links">
-                <a href="index.html" class="active">Accueil</a>
-                <a href="ajouter-jeu.html">Ajouter</a>
-                <a href="contact.html">Contact</a>
-                <a href="mentions-legales.html">Mentions</a>
-            </div>
-            <div class="mobile-menu-btn">
-            </div>
-        </div>
-    </nav>
+    <?php include('header.inc.php'); ?>
 
     <header class="hero-3d">
         <div class="hero-content">
@@ -42,7 +24,7 @@
                             <input type="text" name="nom" placeholder="Rechercher un jeu..." required>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn-submit"> Valider</button>
+                            <button name="submitNom" type="submit" class="btn-submit"> Valider</button>
                         </div>
                     </div>
                 </form>
@@ -123,76 +105,42 @@ function getNomImage($recherche) {
     return $data;
 }
 
-//on récupère le nom rentré par l'utilisateur et on le transforme en lowercase
-$recherche = $_GET['nom'];
-$recherche = strtolower($recherche);
 
-//récupère résultat requete
-$data = getNomImage($recherche);
+if (isset($_GET['submitNom'])) {
+    //on récupère le nom rentré par l'utilisateur et on le transforme en lowercase
+    $recherche = $_GET['nom'];
+    $recherche = strtolower($recherche);
 
-//affichage pour chaque jeu qui matche la recherche
-//j'ai récupéré le contenu de la fonction generateGamesGrid dans le fichier js
-while ($row = $data->fetch_assoc()) {
-    $image = $row['image'];
-    echo '<div class="game-card" onclick="window.location.href=\'jeu-detail.html?id="'.$row['numJeu'].'\'">';
-        echo '<div class="game-card-image"><img src="data:image/jpg;base64,'.base64_encode($image) .'" alt="'.$row['nom'].'" style="width:100%; height:100%; object-fit:cover;"></div>';
-        echo '<div class="game-card-content">';
-            echo '<h3>'.$row['nom'].'</h3>';
-            echo '<div class="game-footer">';
-                echo '<form action="jeu-detail.php" method="GET">';
-                    echo '<input type="hidden" name="id" value='.$row['numJeu'].'>';
-                    echo '<button type="submit" class="btn-detail">Voir détails</button>';
-                echo '</form>';
+    //récupère résultat requete
+    $data = getNomImage($recherche);
+
+    //affichage pour chaque jeu qui matche la recherche
+    //j'ai récupéré le contenu de la fonction generateGamesGrid dans le fichier js
+    while ($row = $data->fetch_assoc()) {
+        $image = $row['image'];
+        echo '<div class="game-card" onclick="window.location.href=\'jeu-detail.html?id="'.$row['numJeu'].'\'">';
+            echo '<div class="game-card-image"><img src="data:image/jpg;base64,'.base64_encode($image) .'" alt="'.$row['nom'].'" style="width:100%; height:100%; object-fit:cover;"></div>';
+            echo '<div class="game-card-content">';
+                echo '<h3>'.$row['nom'].'</h3>';
+                echo '<div class="game-footer">';
+                    echo '<form action="jeu-detail.php" method="GET">';
+                        echo '<input type="hidden" name="id" value='.$row['numJeu'].'>';
+                        echo '<button type="submit" class="btn-detail">Voir détails</button>';
+                    echo '</form>';
+                echo '</div>';
             echo '</div>';
         echo '</div>';
-    echo '</div>';
+    }
+} else {
+    echo '<div class="loading-spinner"></i> Rechercher un jeu pour l\'afficher</div>';
 }
-
 ?>
 
             </div>
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-col">
-                <div class="footer-logo">
-                    <span>Game<span>Versions</span></span>
-                </div>
-                <p>Le comparateur de versions de jeux vidéo. Trouvez la meilleure version de vos jeux préférés.</p>
-            </div>
-            <div class="footer-col">
-                <h4>À propos</h4>
-                <ul>
-                    <li><a href="#">Qui sommes-nous ?</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Légal</h4>
-                <ul>
-                    <li><a href="mentions-legales.html">Mentions légales</a></li>
-                    <li><a href="#">CGU</a></li>
-                    <li><a href="#">RGPD</a></li>
-                    <li><a href="#">Cookies</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Newsletter</h4>
-                <p>Recevez les dernières comparaisons</p>
-                <div class="newsletter-form">
-                    <input type="email" placeholder="Votre email">
-                    <button></button>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 GameVersions - Tous droits réservés</p>
-            <p class="disclaimer">Les marques et jeux cités sont la propriété de leurs détenteurs respectifs.</p>
-        </div>
-    </footer>
+    <?php include('footer.inc.php'); ?>
 
 </body>
 </html>
