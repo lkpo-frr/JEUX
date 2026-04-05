@@ -958,8 +958,12 @@ body {
     margin-bottom: 1rem;
 }
 
+ul {
+    list-style-type: disc;
+}
+
 .change-card ul {
-    list-style: none;
+    list-style-type: disc;
 }
 
 .change-card li {
@@ -976,6 +980,10 @@ body {
 
 .easter {
     border-left: 3px solid var(--warning);
+}
+
+em {
+    font-size: small;
 }
 
 /* Comparative Table */

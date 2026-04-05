@@ -170,18 +170,78 @@ while ($row = $data->fetch_assoc()) {
 
             <div class="changes-section glass">
                 <h2><i class="fas fa-language"></i> Détails des changements</h2>
+                <form action="jeu-detail.php" method="GET">
 
 <?php 
 
-$id = $_GET['id'];
-$data = getInfosVer($id);
-while ($row = $data->fetch_assoc()) {
-    echo '<button id="'.$row['numVersion'].'" class="infoVer btn-add-version" type="button" >'.$row['nom'].'</button>';
+//récupère la liste des changements d'une version triés par type
+function getChangeVer($version, $type) {
+    $req = "SELECT c.type, c.description, c.important 
+            FROM `changeVersion` c INNER JOIN version v
+            ON c.numVersion = v.numVersion
+            WHERE v.numVersion =".$version;
+
+    $req = $req." AND c.type ='".$type."'
+            ORDER BY important DESC;";
+
+    $data = requeteSQL($req);
+    return $data;
 }
 
+$id = $_GET['id'];
+$data = getInfosVer($id);
+//on conserve la valeur de l'id du jeu
+echo '<input type="hidden" name="id" value='.$id.'>';
+//crée un bouton radio pour chaque version, de valeur 0 si c'est l'original ou égale à numVersion sinon
+while ($row = $data->fetch_assoc()) {
+    if ($row['original'] == 1)
+        echo '<label><input type="radio" name="choixVer" value="0"';
+    else
+        echo '<label><input type="radio" name="choixVer" value="'.$row['numVersion'].'"';
+    //permet de cocher automatiquement la version qui a été sélectionnée
+    //submitVer permet de savoir si on a coché une version
+    if (!isset($_GET['submitVer']) && $row['original'] == 1)
+        echo ' checked >'.$row['nom'].'     '.'</label>';
+    else if (isset($_GET['submitVer']) && $_GET['choixVer'] == 0 && $row['original'] == 1)
+        echo ' checked >'.$row['nom'].'     '.'</label>';
+    else if (isset($_GET['submitVer']) && $row['numVersion'] == $_GET['choixVer'])
+        echo ' checked >'.$row['nom'].'     '.'</label>';
+    else
+        echo ' >'.$row['nom'].'     '.'</label>';
+}
+echo '<button type="submit" name="submitVer" class="btn-add-version">Valider</button>';
+echo '</form>';
+
+echo '<div id="changesGrid" class="changes-grid">';
+//affichage de la liste des changements triés par catégories
+if (!isset($_GET['submitVer']) || $_GET['choixVer'] == 0 )
+    echo '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i>Version Originale</div>';
+else {
+    $version = $_GET['choixVer'];
+
+    $data = getChangeVer($version, 'Gameplay');
+    echo '<div class="change-card censorship"><h3>Gameplay</h3><ul class="change-card">';
+    while ($row = $data->fetch_assoc()) {
+        if ($row['important'] == 1)
+            echo '<li>● '.$row['description'].'</li>>';
+        else
+            echo '<li>○ <em>'.$row['description'].'</em></li>>';
+    }
+    echo '</ul></div>';
+
+    $data = getChangeVer($version, 'Graphismes');
+    echo '<div class="change-card restored"><h3>Graphismes</h3><ul class="change-card">';
+    while ($row = $data->fetch_assoc()) {
+        if ($row['important'] == 1)
+            echo '<li>● '.$row['description'].'</li>>';
+        else
+            echo '<li>○ <em>'.$row['description'].'</em></li>>';
+    }
+    echo '</ul></div>';
+}
 ?>
-                <div id="changesGrid" class="changes-grid">
-                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>
+                
+                    
                 </div>
             </div>
 
