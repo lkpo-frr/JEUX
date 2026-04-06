@@ -20,7 +20,7 @@
     <section class="description-section">
         <div class="container">
             <div class="description-card glass">
-                <form action="#" method="GET" id="rechercheNom">
+                <form action="index.php" method="GET" id="rechercheNom">
                     <div class="form-row">
                         <div class="form-group">
                             <input type="text" name="nom" placeholder="Rechercher un jeu..." required>
@@ -37,7 +37,7 @@
                     <b>Ou rechercher par catégories (cliquer ici pour voir) :</b>
                 </legend>
 
-                <form action="indexfiltre.php" method="GET" id="rechercheCat">
+                <form action="index.php" method="GET" id="rechercheCat">
                     <div class="form-row">
                         <div class="form-group">
                             <label>Genre</label>
@@ -70,7 +70,7 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="btn-submit"> Valider</button>
+                            <button name="submitCat" type="submit" class="btn-submit"> Valider</button>
                         </div>
                     </div>
                 </form>
@@ -90,7 +90,7 @@
 //fonction de connexion et requete (requeteSQL) dans un script séparé
 include("connexion.php");
 
-//fonction pour écrire la requete SQL
+//récupère le nom, le numéro de jeu et l'image à partir du nom recherché
 function getNomImage($recherche) {
     $req = "SELECT j.nom, j.numJeu, l.image
             FROM jeu j INNER JOIN version v
@@ -107,16 +107,38 @@ function getNomImage($recherche) {
     return $data;
 }
 
-//si on a entré le nom d'un jeu
-if (isset($_GET['submitNom'])) {
-    //on récupère le nom rentré par l'utilisateur et on le transforme en lowercase
-    $recherche = $_GET['nom'];
-    $recherche = strtolower($recherche);
+//récupère le nom, le numéro de jeu et l'image à partir des critères de filtrage
+function getNomImageCat($genre, $diff, $annee, $nbver) {
+    $req = "SELECT j.nom, j.numJeu, l.image
+            FROM jeu j INNER JOIN version v
+            ON j.numJeu = v.numJeu
+            INNER JOIN portage p
+            ON v.numVersion = p.numVersion
+            INNER JOIN localisation l
+            ON p.numPortage = l.numPortage
+            WHERE v.original = 1
+            AND p.original = 1
+            AND l.original = 1";
 
-    //récupère résultat requete
-    $data = getNomImage($recherche);
+    if ($genre != 0)
+        $req = $req." AND j.genre LIKE '".$genre."'";
+    if ($diff != 0)
+        $req = $req." AND j.difficulte =".$diff;
+    if ($annee != null && $annee >= 1950)
+        $req = $req." AND YEAR(j.dateSortie) =".$annee;
+    if ($nbver != null)
+        $req = $req." AND (SELECT COUNT(v2.numVersion) 
+                            FROM version v2
+                            WHERE v2.numJeu = j.numJeu
+                            GROUP BY j.numJeu) =".$nbver;
 
-    //affichage pour chaque jeu qui matche la recherche
+    $data = requeteSQL($req);
+    return $data;
+}
+
+//affiche tous les jeux qui matchent la recherche sur la page
+//argument : le résultat de la requete SQL
+function afficheJeux($data) {
     while ($row = $data->fetch_assoc()) {
         $image = $row['image'];
         echo '<div class="game-card" onclick="window.location.href=\'jeu-detail.html?id="'.$row['numJeu'].'\'">';
@@ -132,6 +154,35 @@ if (isset($_GET['submitNom'])) {
             echo '</div>';
         echo '</div>';
     }
+}
+
+//si on a entré le nom d'un jeu
+if (isset($_GET['submitNom'])) {
+    //on récupère le nom rentré par l'utilisateur et on le transforme en lowercase
+    $recherche = $_GET['nom'];
+    $recherche = strtolower($recherche);
+
+    //récupère résultat requete
+    $data = getNomImage($recherche);
+
+    //affichage pour chaque jeu qui matche la recherche
+    afficheJeux($data);
+    
+//si on a recherché un jeu via les filtres
+} else if (isset($_GET['submitCat'])){
+    //on récupère les critères de filtrage
+    $genre = $_GET['genre'];
+    $diff = $_GET['difficulte'];
+    $annee = $_GET['dateSortie'];
+    $nbver = $_GET['nbVersions'];
+
+    //récupère résultat requete
+    $data = getNomImageCat($genre, $diff, $annee, $nbver);
+
+    //affichage pour chaque jeu qui matche la recherche
+    afficheJeux($data);
+
+//si on a pas encore recherché un jeu
 } else {
     echo '<div class="loading-spinner"></i> Rechercher un jeu pour l\'afficher</div>';
 }
