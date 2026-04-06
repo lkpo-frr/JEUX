@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>GameVersions - Comparez toutes les versions de vos jeux vidéo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script defer src="js/monscript.js"></script>
+</head>
+<body>
+    <?php include('header.inc.php'); ?>
+
+    <header class="hero-3d">
+        <div class="hero-content">
+            <h1 class="glitch-text" data-text="COMPAREZ TOUTES LES VERSIONS">COMPAREZ TOUTES LES VERSIONS</h1>
+        </div>
+    </header>
+
+    <section class="description-section">
+        <div class="container">
+            <div class="description-card glass">
+                <form action="index.php" method="GET" id="rechercheNom">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" name="nom" placeholder="Rechercher un jeu..." required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn-submit"> Valider</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <fieldset name="categories" class="description-card glass">
+                <legend>
+                    <b>Ou rechercher par catégories (cliquer ici pour voir) :</b>
+                </legend>
+
+                <form action="#" method="GET" id="rechercheCat">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Genre</label>
+                            <select name="genre">
+                                <option value="0">Sélectionner</option>
+                                <option value="JRPG">JRPG</option>
+                                <option value="Aventure">Aventure</option>
+                                <option value="TPS">TPS</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Difficulté</label>
+                            <select name="difficulte">
+                                <option value="0">Sélectionner</option>
+                                <option value="1">Facile</option>
+                                <option value="2">Normal</option>
+                                <option value="3">Difficile</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                                <label>Année de sortie originale</label>
+                                <input type="number" name="dateSortie">
+                        </div>
+
+                        <div class="form-group">
+                                <label>Nombre total de versions</label>
+                                <input type="number" name="nbVersions" maxlength="2">
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn-submit"> Valider</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="games-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Jeux</h2>
+            </div>
+            <div class="games-grid" id="gamesGrid">
+
+<?php 
+
+//fonction de connexion et requete (requeteSQL) dans un script séparé
+include("connexion.php");
+
+//fonction pour écrire la requete SQL
+function getNomImage($genre, $diff, $annee, $nbver) {
+    $req = "SELECT j.nom, j.numJeu, l.image
+            FROM jeu j INNER JOIN version v
+            ON j.numJeu = v.numJeu
+            INNER JOIN portage p
+            ON v.numVersion = p.numVersion
+            INNER JOIN localisation l
+            ON p.numPortage = l.numPortage
+            WHERE v.original = 1
+            AND p.original = 1
+            AND l.original = 1";
+
+    if ($genre != 0)
+        $req = $req." AND j.genre LIKE '".$genre."'";
+    if ($diff != 0)
+        $req = $req." AND j.difficulte =".$diff;
+    if ($annee != null && $annee >= 1950)
+        $req = $req." AND YEAR(j.dateSortie) =".$annee;
+    if ($nbver != null)
+        $req = $req." AND (SELECT COUNT(v2.numVersion) 
+                            FROM version v2
+                            WHERE v2.numJeu = j.numJeu
+                            GROUP BY j.numJeu) =".$nbver;
+
+    $data = requeteSQL($req);
+    return $data;
+}
+
+$genre = $_GET['genre'];
+$diff = $_GET['difficulte'];
+$annee = $_GET['dateSortie'];
+$nbver = $_GET['nbVersions'];
+
+
+//récupère résultat requete
+$data = getNomImage($genre, $diff, $annee, $nbver);
+
+//affichage pour chaque jeu qui matche la recherche
+//j'ai récupéré le contenu de la fonction generateGamesGrid dans le fichier js
+while ($row = $data->fetch_assoc()) {
+    $image = $row['image'];
+    echo '<div class="game-card" onclick="window.location.href=\'jeu-detail.html?id="'.$row['numJeu'].'\'">';
+        echo '<div class="game-card-image"><img src="data:image/jpg;base64,'.base64_encode($image) .'" alt="'.$row['nom'].'" style="width:100%; height:100%; object-fit:cover;"></div>';
+        echo '<div class="game-card-content">';
+            echo '<h3>'.$row['nom'].'</h3>';
+            echo '<div class="game-footer">';
+                echo '<form action="jeu-detail.php" method="GET">';
+                    echo '<input type="hidden" name="id" value='.$row['numJeu'].'>';
+                    echo '<button class="btn-detail">Voir détails</button>';
+                echo '</form>';
+            echo '</div>';
+        echo '</div>';
+    echo '</div>';
+}
+
+?>
+
+            </div>
+        </div>
+    </section>
+
+    <?php include('footer.inc.php'); ?>
+
+</body>
+</html>
