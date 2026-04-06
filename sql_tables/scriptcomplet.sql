@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS jeu;
 -- Table: jeu
 -- ----------------------------
 CREATE TABLE jeu (
-  numJeu INT NOT NULL,
+  numJeu INT NOT NULL AUTO_INCREMENT,
   nom VARCHAR(200) NOT NULL,
   dateSortie DATE NOT NULL,
   genre VARCHAR(50) NOT NULL,

@@ -50,15 +50,54 @@
                     <h2>Statistiques</h2>
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <span class="stat-num" data-count="247">247</span>
-                            <span>Jeux</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-num" data-count="1250">1250</span>
-                            <span>Versions</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-num" data-count="3428">3462</span>
+
+<?php
+//fonction de connexion et requete (requeteSQL) dans un script séparé
+include("connexion.php");
+
+//fonctions pour récupérer les statistiques
+function getNbJeux() {
+    $req = "SELECT COUNT(*) AS nb FROM jeu;";
+    $data = requeteSQL($req);
+    return $data;
+}
+
+function getNbVer() {
+    $req = "SELECT COUNT(*) AS nb FROM version;";
+    $data = requeteSQL($req);
+    return $data;
+}
+
+function getNbPorts() {
+    $req = "SELECT COUNT(*) AS nb FROM portage;";
+    $data = requeteSQL($req);
+    return $data;
+}
+
+$nbJeux = getNbJeux();
+$nbJeux = $nbJeux->fetch_assoc();
+$nbJeux = $nbJeux['nb'];
+
+$nbVer = getNbVer();
+$nbVer = $nbVer->fetch_assoc();
+$nbVer = $nbVer['nb'];
+
+$nbPorts = getNbPorts();
+$nbPorts = $nbPorts->fetch_assoc();
+$nbPorts = $nbPorts['nb'];
+
+//affichage des statistiques
+    echo '<span class="stat-num" >'.$nbJeux.'</span>';
+    echo '<span>Jeux</span>';
+echo '</div>';
+echo '<div class="stat-card">';
+    echo '<span class="stat-num">'.$nbVer.'</span>';
+    echo '<span>Versions</span>';
+echo '</div>';
+echo '<div class="stat-card">';
+    echo '<span class="stat-num">'.$nbPorts.'</span>';
+?>
+
                             <span>Portages</span>
                         </div>
                     </div>

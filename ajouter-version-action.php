@@ -41,6 +41,7 @@ $original = $_POST['original'];
 $date = $_POST['dateSortie'];
 $addi = $_POST['addi'];
 $difficulte = $_POST['diff'];
+
 if (isset($_POST['note']))
     $note = $_POST['note'];
 else

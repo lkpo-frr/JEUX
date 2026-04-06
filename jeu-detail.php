@@ -57,7 +57,7 @@ $data = getInfosJeu($id);
 $row = $data->fetch_assoc();
 $image = $row['image'];
 
-//affiche l'image et les infos sur le jeu en haut de page
+//affiche l'image et les infos sur le jeu en haut de la page
     echo '<img id="jeuCoverImage" src="data:image/jpg;base64,'.base64_encode($image) .'" alt="Jeu">';
 echo '</div>';
 echo '<div class="jeu-info">';
@@ -96,7 +96,7 @@ echo '<div class="jeu-info">';
                         <tbody id="portageTableBody">
 
 <?php 
-
+//récupère les informations sur toutes les versions du jeu
 function getInfosVer($id) {
     $req = "SELECT v.numVersion, v.nom, v.dateSortie, v.contenuAdditionnel AS addi, 
             v.difficulteRelative AS diff, v.noteVersion AS note, v.description, v.original
@@ -110,6 +110,7 @@ function getInfosVer($id) {
 
 $id = $_GET['id'];
 $data = getInfosVer($id);
+
 //remplit le tableau comparant les versions
 while ($row = $data->fetch_assoc()) {
     echo '<tr><td>'.$row['nom'].'</td><td>'.$row['dateSortie'].'</td><td>';
@@ -153,6 +154,8 @@ while ($row = $data->fetch_assoc()) {
 
 <?php 
 
+//on crée un nouveau formulaire qui permet à l'utilisateur d'indiquer la version pour laquelle il souhaite avoir plus d'informations
+
 //récupère la liste des changements d'une version d'un certain type
 function getChangeVer($version, $type) {
     $req = "SELECT c.type, c.description, c.important 
@@ -169,8 +172,10 @@ function getChangeVer($version, $type) {
 
 $id = $_GET['id'];
 $data = getInfosVer($id);
+
 //on conserve la valeur de l'id du jeu
 echo '<input type="hidden" name="id" value='.$id.'>';
+
 //crée un bouton radio pour chaque version, de valeur 0 si c'est l'original ou égale à numVersion sinon
 while ($row = $data->fetch_assoc()) {
     if ($row['original'] == 1)
@@ -178,8 +183,8 @@ while ($row = $data->fetch_assoc()) {
     else
         echo '<label><input type="radio" name="choixVer" value="'.$row['numVersion'].'"';
     //permet de cocher automatiquement la version qui a été sélectionnée
-    //submitVer permet de savoir si on a coché une version
-    if (!isset($_GET['submitVer']) && $row['original'] == 1)
+    //submitVer permet de savoir si on a déjà coché une version
+    if (!isset($_GET['submitVer']) && $row['original'] == 1) //par défaut, la version originale est déjà cochée
         echo ' checked >'.$row['nom'].'     '.'</label>';
     else if (isset($_GET['submitVer']) && $_GET['choixVer'] == 0 && $row['original'] == 1)
         echo ' checked >'.$row['nom'].'     '.'</label>';
@@ -189,25 +194,26 @@ while ($row = $data->fetch_assoc()) {
         echo ' >'.$row['nom'].'     '.'</label>';
 }
 echo '<button type="submit" name="submitVer" class="btn-add-version">Valider</button>';
-echo '</form>';
+echo '</form>'; //fin du formulaire
 
+//on affiche la liste des changements pour la version sélectionnée
 echo '<div id="changesGrid" class="changes-grid">';
-//affichage de la liste des changements pour chaque catégories
+//si la version originale est sélectionnée, affiche juste version originale
 if (!isset($_GET['submitVer']) || $_GET['choixVer'] == 0 )
     echo '<div class="loading-spinner">Version Originale</div>';
 else {
     $version = $_GET['choixVer'];
-
+    //affichage de la liste des changements pour chaque catégorie
     $data = getChangeVer($version, 'Gameplay');
     echo '<div class="change-card censorship"><h3>Gameplay</h3><ul class="change-card">';
     while ($row = $data->fetch_assoc()) {
         if ($row['important'] == 1)
             echo '<li>'.$row['description'].'</li>';
-        else
+        else //si le changement n'est pas important, mis en italique et en plus petit (css)
             echo '<li><em>'.$row['description'].'</em></li>';
     }
     echo '</ul></div>';
-
+    //pour catégorie Graphismes
     $data = getChangeVer($version, 'Graphismes');
     echo '<div class="change-card restored"><h3>Graphismes</h3><ul class="change-card">';
     while ($row = $data->fetch_assoc()) {
@@ -273,7 +279,7 @@ if (!isset($_GET['submitVer']) || $_GET['choixVer'] == 0 ) {
     $data = getInfosPort($version);
 }
 
-//remplit le tableau comparant les ports
+//remplit le tableau comparant les ports de la version sélectionnée
 while ($row = $data->fetch_assoc()) {
     echo '<tr><td>'.$row['nom'].'</td><td>'.$row['resolution'].'</td><td>'.$row['framerate'].'</td><td>';
     //affiche si le jeu est stable
