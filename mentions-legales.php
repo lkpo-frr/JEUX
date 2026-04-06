@@ -88,7 +88,7 @@
 
                 <div class="legal-section">
                     <h2>Dernière mise à jour</h2>
-                    <p>5 avril 2026</p>
+                    <p>6 avril 2026</p>
                 </div>
             </div>
         </div>
