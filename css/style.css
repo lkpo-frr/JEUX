@@ -521,25 +521,6 @@ legend:hover {
     font-size: 0.7rem;
 }
 
-/* ==================== EASTER EGG ==================== */
-.easter-egg-toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    font-weight: 600;
-    transform: translateX(200%);
-    transition: transform 0.3s ease;
-    z-index: 1000;
-}
-
-.easter-egg-toast.show {
-    transform: translateX(0);
-}
-
 /* ==================== JEU DETAIL PAGE ==================== */
 .back-link {
     display: inline-flex;
