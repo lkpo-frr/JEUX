@@ -19,14 +19,14 @@
             <div class="contact-grid">
                 <div class="contact-form glass">
                     <h2>Envoyez-nous un message</h2>
-                    <form id="contactForm">
+                    <form action="#" method="POST" id="contactForm" >
                         <div class="form-group">
                             <label>Nom complet</label>
                             <input type="text" placeholder="Jean Dupont" required>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" placeholder="jean@email.com" required>
+                            <input type="email" placeholder="jean@email.com" title="L'adresse doit etre de la forme jean@email.com" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$" required>
                         </div>
                         <div class="form-group">
                             <label>Sujet</label>
