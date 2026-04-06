@@ -23,6 +23,7 @@
 <?php 
 //fonction de connexion et requete (requeteSQL) dans un script séparé
 include("connexion.php");
+
 //pour récupérer le nom du jeu à partir de son id
 function getNomJeu($id) {
     $req = "SELECT nom FROM jeu WHERE numJeu = $id;";
